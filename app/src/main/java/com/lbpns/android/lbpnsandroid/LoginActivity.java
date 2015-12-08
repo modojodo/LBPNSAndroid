@@ -1,0 +1,78 @@
+package com.lbpns.android.lbpnsandroid;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.concurrent.ExecutionException;
+
+public class LoginActivity extends Activity {
+    private static final String TAG = "LoginActivity";
+    Context _this = this;
+    private Button loginBtn;
+    private EditText loginEmailEdt;
+    private EditText loginPasswordEdt;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        loginBtn = (Button) findViewById(R.id.loginBtn);
+        loginEmailEdt = (EditText) findViewById(R.id.loginEmailText);
+        loginPasswordEdt = (EditText) findViewById(R.id.loginPasswordText);
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            String email, password;
+
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onLogin pressed");
+                email = loginEmailEdt.getText().toString().trim();
+                password = loginPasswordEdt.getText().toString().trim();
+
+                boolean connectecd = Connectivity.isConnectedToInternet(_this);
+                if (connectecd) {
+                    ServerRequestTask loginTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+                        @Override
+                        public boolean task() {
+                            ServerCommunication server = new ServerCommunication(_this);
+                            return server.login(email, password);
+                        }
+                    });
+                    try {
+                        boolean loggedIn = loginTask.execute().get();
+                        if (loggedIn) {
+                            Intent homeActivity = new Intent(v.getContext(), HomeActivity.class);
+                            startActivity(homeActivity);
+                        } else {
+                            Toast.makeText(_this, "Invalid Login!", Toast.LENGTH_SHORT);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Log.d("Inside onLogin else", TAG);
+                    Connectivity.noInternetToast(_this);
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent mainActivity = new Intent(this, MainActivity.class);
+        startActivity(mainActivity);
+    }
+
+
+}

@@ -4,9 +4,12 @@ import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.LocationManager;
+import android.preference.PreferenceManager;
+import android.content.SharedPreferences.Editor;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.prefs.PreferenceChangeEvent;
 
 /**
  * Created by Asad 15R on 12/12/2015.
@@ -33,6 +37,7 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
     private List<String> listHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> listChild;
+    CheckedTextView txtListChild;
 
     public ExpListAdapter(Context context, List<String> listDataHeader,
                                  HashMap<String, List<String>> listChildData) {
@@ -65,20 +70,24 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
 
-        final CheckedTextView txtListChild = (CheckedTextView) convertView
+
+        txtListChild = (CheckedTextView) convertView
                 .findViewById(R.id.lblListItem);
 
         txtListChild.setText(childText);
+
 
         txtListChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (txtListChild.isChecked()) {
                     txtListChild.setChecked(false);
+                    savePreferences("CheckboxValue",txtListChild.isChecked());
                     // Toast.makeText(context,childText + " unselected!",Toast.LENGTH_SHORT).show();
                     removeProximityAlert(childPosition + request);
                 } else {
                     txtListChild.setChecked(true);
+                    savePreferences("CheckboxValue",txtListChild.isChecked());
                     // Toast.makeText(context,childText + " Proximity Alert Added",Toast.LENGTH_SHORT).show();
 
                     //FOR CUISINE
@@ -157,8 +166,29 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
             }
         });
 
+        getPreferences();
 
         return convertView;
+    }
+
+    private void getPreferences(){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean checkboxValue = preferences.getBoolean("CheckboxValue",false);
+        if(checkboxValue)
+            txtListChild.setChecked(true);
+        else{
+            txtListChild.setChecked(false);
+        }
+    }
+
+    private void savePreferences(String key,boolean value){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Editor editor = preferences.edit();
+        editor.putBoolean(key,value);
+        editor.commit();
+
     }
 
     private void removeProximityAlert(int requestCode) {

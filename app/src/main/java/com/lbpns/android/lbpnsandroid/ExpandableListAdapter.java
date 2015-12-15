@@ -35,6 +35,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> listHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> listChild;
+    private boolean checkBoxValue;
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
                                  HashMap<String, List<String>> listChildData) {
@@ -72,16 +73,30 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         txtListChild.setText(childText);
 
+        loadSavedPreferences(headerTitle + childText);
+        if (checkBoxValue) {
+            txtListChild.setChecked(true);
+
+        } else {
+            txtListChild.setChecked(false);
+
+        }
+
+
         txtListChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (txtListChild.isChecked()) {
                     txtListChild.setChecked(false);
+                    savePreferences(headerTitle + childText, false);
+
                     // Toast.makeText(context,childText + " unselected!",Toast.LENGTH_SHORT).show();
                     removeProximityAlert(childPosition + request);
+
                 } else {
                     txtListChild.setChecked(true);
                     // Toast.makeText(context,childText + " Proximity Alert Added",Toast.LENGTH_SHORT).show();
+                    savePreferences(headerTitle + childText, true);
 
                     //FOR CUISINE
 
@@ -210,6 +225,28 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return groupPosition;
     }
 
+    private void savePreferences(String key,boolean value) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(key, value);
+
+        editor.commit();
+
+    }
+
+    private void loadSavedPreferences(String key) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        checkBoxValue = sharedPreferences.getBoolean(key, false);
+
+
+    }
+
+
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
@@ -224,7 +261,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
-
         return convertView;
     }
 

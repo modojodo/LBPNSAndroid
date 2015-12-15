@@ -7,6 +7,6 @@
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#c8e8ff</color>
     <color name="btn_bg">#c22809</color>
-    <color name="lay_colorgroup">#6f9ada</color>
-    <color name="lay_colorlist">#6f9ada</color>
+    <color name="lay_colorgroup">#3296df</color>
+    <color name="lay_colorlist">#30e1cf</color>
 </resources>

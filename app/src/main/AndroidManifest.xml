@@ -54,6 +54,12 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:noHistory="true">
         </activity>
+        <receiver android:name="GeofenceReceiver" >
+            <intent-filter>
+                <action android:name="com.lbpns.android.lbpnsandroid"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

@@ -180,7 +180,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private void removeProximityAlert(int requestCode) {
         LocationManager lManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        Intent intent = new Intent("com.iulbpns.lbpnsandroid");
+        Intent intent = new Intent("com.lbpns.android.lbpnsandroid");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(),requestCode,intent,0);
         if (ContextCompat.checkSelfPermission(context.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             lManager.removeProximityAlert(pendingIntent);
@@ -191,7 +191,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private void addProximityAlert(int requestCode,double lat,double lon){
         LocationManager lManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        Intent intent = new Intent("com.iulbpns.lbpnsandroid");
+        Intent intent = new Intent("com.lbpns.android.lbpnsandroid");
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(),requestCode,intent,0);
 

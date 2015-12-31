@@ -8,5 +8,6 @@
     <string name="title_activity_signup">SignupActivity</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="menu">Open</string>
 
 </resources>

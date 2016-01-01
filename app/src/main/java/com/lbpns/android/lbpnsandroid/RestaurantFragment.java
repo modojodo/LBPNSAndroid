@@ -13,11 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by Asad 15R on 12/12/2015.
+ * Created by Asad 15R on 12/16/2015.
  */
 public class RestaurantFragment extends Fragment {
 
-    ExpListAdapter listAdapter;
+    ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -36,7 +36,7 @@ public class RestaurantFragment extends Fragment {
         // prepare list data
         constructData();
 
-        listAdapter = new ExpListAdapter(getActivity(), listDataHeader, listDataChild);
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);

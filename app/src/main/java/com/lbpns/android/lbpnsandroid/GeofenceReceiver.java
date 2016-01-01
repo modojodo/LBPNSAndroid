@@ -11,10 +11,9 @@ import android.location.LocationManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
 /**
- * Created by Asad 15R on 11/9/2015.
+ * Created by Asad 15R on 12/31/2015.
  */
 public class GeofenceReceiver extends BroadcastReceiver {
 
@@ -25,17 +24,17 @@ public class GeofenceReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         String key = LocationManager.KEY_PROXIMITY_ENTERING;
-        boolean state = intent.getBooleanExtra(key, false);
+        boolean state = intent.getBooleanExtra(key,false);
 
-        if (state) {
+        if(state){
 
             // Uri mapIntent  = Uri.parse("geo:"+LATITUDE+","+LONGITUDE);
-            Uri mapIntent = Uri.parse("google.navigation:q=" + LATITUDE + "," + LONGITUDE);
-            Intent mIntent = new Intent(Intent.ACTION_VIEW, mapIntent);
+            Uri mapIntent = Uri.parse("google.navigation:q=" +LATITUDE + "," +LONGITUDE );
+            Intent mIntent = new Intent(Intent.ACTION_VIEW,mapIntent);
             intent.setPackage("com.google.android.apps.maps");
 
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, mIntent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context,1,mIntent,0);
 
             //    Toast.makeText(context, "You have Entered Geofence", Toast.LENGTH_LONG).show();
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);

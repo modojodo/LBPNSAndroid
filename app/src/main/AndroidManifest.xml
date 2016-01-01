@@ -17,23 +17,23 @@
             android:label="@string/app_name"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" >
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".MenuSelection"
+            android:theme="@style/Base.ThemeOverlay.AppCompat.ActionBar" >
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
 
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
-        <activity android:name=".MenuSelection"
-                  android:theme="@style/Base.ThemeOverlay.AppCompat.ActionBar"
-                   >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
-
-
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
@@ -51,8 +51,25 @@
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+
+        <receiver android:name=".GeofenceReceiver" >
+            <intent-filter>
+                <action android:name="com.iulbpns.lbpnsandroid" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".FetchDataActivity"
+            android:label="@string/title_activity_fetch_data"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

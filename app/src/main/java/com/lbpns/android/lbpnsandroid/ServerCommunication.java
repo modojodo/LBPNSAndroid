@@ -3,6 +3,7 @@ package com.lbpns.android.lbpnsandroid;
 import android.content.Context;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -201,6 +202,57 @@ public class ServerCommunication {
 
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    public static JSONArray getRequest(URL url) {
+
+//        URL url = null;
+//        try {
+//            url = new URL(link);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+        HttpURLConnection conn = null;
+        try {
+//            CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+            CookieManager cookieManager = new CookieManager();
+            CookieHandler.setDefault(cookieManager);
+            cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+            conn = (HttpURLConnection) url.openConnection();
+            System.out.println("Sending the cookies: " + CookiePreferenceStore.getValue(_this));
+            conn.setRequestProperty("Cookie", "connect.sid=" + CookiePreferenceStore.getValue(_this));
+            conn.connect();
+
+
+//            conn.setDoOutput(true);
+            Log.d(TAG, "Request sent");
+            InputStream response;
+            String jsonReply;
+            if (conn.getResponseCode() == 201 || conn.getResponseCode() == 200) {
+                response = conn.getInputStream();
+                jsonReply = convertStreamToString(response);
+
+                List<HttpCookie> list = cookieManager.getCookieStore().getCookies();
+                System.out.println("The length of cookie is: " + list.size());
+                for (int i = 0; i < list.size(); i++) {
+                    HttpCookie cookie = list.get(i);
+                    if (cookie.getName().equals("connect.sid")) {
+                        CookiePreferenceStore.saveValue(_this, cookie.getValue());
+                        break;
+                    }
+                }
+                response.close();
+                conn.disconnect();
+                JSONArray jsonArrReply = new JSONArray(jsonReply);
+                return jsonArrReply;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return null;

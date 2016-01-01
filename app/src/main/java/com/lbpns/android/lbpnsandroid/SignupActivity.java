@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+
 import java.util.concurrent.ExecutionException;
 
 public class SignupActivity extends Activity {
@@ -42,13 +44,18 @@ public class SignupActivity extends Activity {
                 if (connectecd) {
                     ServerRequestTask loginTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
                         @Override
-                        public boolean task() {
+                        public boolean taskWithBoolean() {
                             ServerCommunication server = new ServerCommunication(_this);
                             return server.signup(email, password);
                         }
+
+                        @Override
+                        public JSONArray taskWithJSONArray() {
+                            return null;
+                        }
                     });
                     try {
-                        boolean signedUp = loginTask.execute().get();
+                        boolean signedUp = (boolean)loginTask.execute("boolean").get();
                         if (signedUp) {
                             Intent homeActivity = new Intent(v.getContext(), HomeActivity.class);
                             startActivity(homeActivity);

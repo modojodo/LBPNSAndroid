@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+
 import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends Activity {
@@ -41,13 +43,18 @@ public class LoginActivity extends Activity {
                 if (connectecd) {
                     ServerRequestTask loginTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
                         @Override
-                        public boolean task() {
+                        public boolean taskWithBoolean() {
                             ServerCommunication server = new ServerCommunication(_this);
                             return server.login(email, password);
                         }
+
+                        @Override
+                        public JSONArray taskWithJSONArray() {
+                            return null;
+                        }
                     });
                     try {
-                        boolean loggedIn = loginTask.execute().get();
+                        boolean loggedIn = (boolean)loginTask.execute("boolean").get();
                         if (loggedIn) {
                             Intent homeActivity = new Intent(v.getContext(), HomeActivity.class);
                             startActivity(homeActivity);

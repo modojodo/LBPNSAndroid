@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+
 import java.util.concurrent.ExecutionException;
 
 public class SplashActivity extends AppCompatActivity {
@@ -24,13 +26,18 @@ public class SplashActivity extends AppCompatActivity {
         if (connectecd) {
             ServerRequestTask authenticateTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
                 @Override
-                public boolean task() {
+                public boolean taskWithBoolean() {
                     ServerCommunication server = new ServerCommunication(_this);
                     return server.authenticate();
                 }
+
+                @Override
+                public JSONArray taskWithJSONArray() {
+                    return null;
+                }
             });
             try {
-                boolean authenticated = authenticateTask.execute().get();
+                boolean authenticated = (boolean) authenticateTask.execute("boolean").get();
                 if (authenticated) {
                     Intent homeActivity = new Intent(_this, HomeActivity.class);
                     startActivity(homeActivity);

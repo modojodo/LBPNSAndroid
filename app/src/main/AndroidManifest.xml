@@ -26,8 +26,8 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".MenuSelection"
-            android:theme="@style/Base.ThemeOverlay.AppCompat.ActionBar" >
+            android:name=".SelectionMenu"
+            android:theme="@style/MyMaterialTheme" >
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
 
@@ -64,7 +64,7 @@
         <activity
             android:name=".FetchDataActivity"
             android:label="@string/title_activity_fetch_data"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/MyMaterialTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

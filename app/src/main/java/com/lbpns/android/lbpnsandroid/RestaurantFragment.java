@@ -52,6 +52,10 @@ public class RestaurantFragment extends Fragment {
         listDataHeader.add("KFC");
         listDataHeader.add("Pizza Point");
         listDataHeader.add("McDonalds");
+//
+//        for (int i=0;i<DealData.listTitleS.length;i++){
+//            listDataHeader.add(DealData.listTitleS[i].toString());
+//        }
 
         // Adding child data
         List<String> kfc = new ArrayList<String>();

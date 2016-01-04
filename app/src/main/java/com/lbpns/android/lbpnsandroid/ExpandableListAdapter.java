@@ -100,9 +100,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
                     //FOR CUISINE
 
+                    UserPref userPref = new UserPref();
+
+
                     if (headerTitle == "Burger" && childText == "KFC") {
                         double lat = 24.909898, lon = 67.085690;
                         addProximityAlert(childPosition + request, lat, lon);
+                       // userPref.setSharedPref();
+
                     } else if (headerTitle == "Burger" && childText == "McDonalds") {
                         double lat = 24.798466, lon = 67.034419;
                         addProximityAlert(childPosition + request, lat, lon);

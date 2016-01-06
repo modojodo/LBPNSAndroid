@@ -1,17 +1,13 @@
 package com.lbpns.android.lbpnsandroid;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,16 +15,15 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Asad 15R on 1/4/2016.
+ * Created by Asad 15R on 1/6/2016.
  */
-public class DealData extends Activity {
+public class PreferenceMenuData extends Activity {
 
-
-    static ArrayList<String> listTitle;
-    static ArrayList<String> listContent;
+    static ArrayList<String> listCuisine;
+    static ArrayList<String> listRestaurant;
 
     private Button btnDeal;
-    static String listTitleS[],listContentS[];
+    static String listCuisineS[],listRestaurantS[];
     static String[] name = new String[]{"Zinger", "Burger", "Pizza", "Kabab", "Katakat", "Karahi", "Handi", "Biryani", "Sandwich", "Icecream"};
 
     @Override
@@ -59,29 +54,46 @@ public class DealData extends Activity {
         });
         try {
 
-            listTitle = new ArrayList<String>();
-            listContent = new ArrayList<String>();
+            listCuisine = new ArrayList<String>();
+            listRestaurant = new ArrayList<String>();
 
             JSONArray fetchedDeals = (JSONArray) fetchTask.execute("jsonarray").get();
 
             if (fetchedDeals != null) {
                 int len = fetchedDeals.length();
                 for (int i = 0; i < len; i++) {
-                    listTitle.add(fetchedDeals.getJSONObject(i).getString("dealTitle"));
-                    listContent.add(fetchedDeals.getJSONObject(i).getString("dealContent"));
+                    listRestaurant.add(fetchedDeals.getJSONObject(i).getString("restaurants"));
+
+                   // listCuisine.add(fetchedDeals.getJSONObject(i).getString("restaurants"));
+
+                    JSONArray jsonArray = null;
+                    jsonArray = fetchedDeals.getJSONArray(0);
+
+                    JSONObject jsonObject = null;
+                    jsonObject = jsonArray.getJSONObject(i);
+               //    listCuisineS[i] = jsonArray.getString(i);
+                    listCuisine.add(fetchedDeals.getJSONArray(i).getString(i));
+
+//                    listCuisine.add(fetchedDeals.getJSONObject(i).getString("cuisi"));
+                   // listCuisine.add(fetchedDeals.getJSONArray("cuisine");
+
+
+                   // jsonArray = jsonObject.getJSONArray("cuisine");
+
+//                    listRestaurant.add(fetchedDeals.getJSONObject(i).getString("dealContent"));
                 }
 
             }
 
-           // listContent.add(fetchedDeals.getJSONObject(1).getString("dealContent"));
+            // listContent.add(fetchedDeals.getJSONObject(1).getString("dealContent"));
 
 //            System.out.println(fetchedDeals.getJSONObject(1).getString("dealContent"));
 
-            listTitleS = new String[listTitle.size()];
-            listTitleS = listTitle.toArray(listTitleS);
+            listCuisineS = new String[listCuisine.size()];
+            listCuisineS = listCuisine.toArray(listCuisineS);
 
-            listContentS = new String[listContent.size()];
-            listContentS = listContent.toArray(listContentS);
+            listRestaurantS = new String[listRestaurant.size()];
+            listRestaurantS = listRestaurant.toArray(listRestaurantS);
 
 //            System.out.println(list.get(1));
 //
@@ -90,10 +102,6 @@ public class DealData extends Activity {
 //                    android.R.layout.simple_expandable_list_item_1,
 //                    list));
 
-
-
-                    Intent i = new Intent(getApplicationContext(),DealActivity.class);
-                    startActivity(i);
 
 
         } catch (InterruptedException e) {

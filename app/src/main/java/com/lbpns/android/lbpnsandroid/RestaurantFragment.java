@@ -49,9 +49,17 @@ public class RestaurantFragment extends Fragment {
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding child data
-        listDataHeader.add("KFC");
-        listDataHeader.add("Pizza Point");
-        listDataHeader.add("McDonalds");
+        for(int i=0;i<PreferenceMenuData.listRestaurant.size();i++) {
+            listDataHeader.add(PreferenceMenuData.listRestaurantS.toString());
+        }
+
+        for (int i=0;i<PreferenceMenuData.listCuisine.size();i++){
+
+        }
+
+//        listDataHeader.add("KFC");
+//        listDataHeader.add("Pizza Point");
+//        listDataHeader.add("McDonalds");
 //
 //        for (int i=0;i<DealData.listTitleS.length;i++){
 //            listDataHeader.add(DealData.listTitleS[i].toString());

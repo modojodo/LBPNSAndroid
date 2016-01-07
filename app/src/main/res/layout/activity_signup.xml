@@ -37,6 +37,18 @@
             android:inputType="textPassword"
             android:paddingBottom="40dp"
             android:backgroundTint="#ecf0f1"/>
+        <EditText
+            android:id="@+id/signupConfPasswordText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:ems="10"
+            android:textColor="#D2D7D3"
+            android:hint="Confirm Password"
+            android:textColorHint="#ecf0f1"
+            android:inputType="textPassword"
+            android:paddingBottom="40dp"
+            android:backgroundTint="#ecf0f1"/>
     </LinearLayout>
 
     <LinearLayout

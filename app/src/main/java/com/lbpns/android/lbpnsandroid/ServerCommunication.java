@@ -29,7 +29,7 @@ import java.util.List;
 public class ServerCommunication {
     //    Genymotion/virtualbox ip address for localhost: 192.168.56.1:3000
     private static final String CHARSET = "UTF-8";
-    private static final String ROOT_URL = "http://192.168.0.105:3000";
+    private static final String ROOT_URL = "http://192.168.0.101:3000";
     private static final String SIGNUP_LINK = ROOT_URL + "/signup";
     private static final String LOGIN_LINK = ROOT_URL + "/login";
     private static final String AUTH_LINK = ROOT_URL + "/authenticate";
@@ -43,7 +43,7 @@ public class ServerCommunication {
     public static boolean signup(String email, String password) {
 
         String urlParameters = "";
-        String statusProperty = "signed";
+        String statusProperty = "signedUp";
         boolean signedUp = false;
         try {
             urlParameters = String.format("email=%s&password=%s", URLEncoder.encode(email, CHARSET), URLEncoder.encode(password, CHARSET));
@@ -53,6 +53,7 @@ public class ServerCommunication {
         try {
             JSONObject response = postRequest(urlParameters, new URL(SIGNUP_LINK));
             if (response != null) {
+
                 if (response.has(statusProperty)) {
                     try {
                         String statusResponse = response.getString(statusProperty);

@@ -36,36 +36,48 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onLogin pressed");
-                email = loginEmailEdt.getText().toString().trim();
-                password = loginPasswordEdt.getText().toString().trim();
-
+                InputValidation.removeAllErrors(loginEmailEdt, loginPasswordEdt);
                 boolean connectecd = Connectivity.isConnectedToInternet(_this);
                 if (connectecd) {
-                    ServerRequestTask loginTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
-                        @Override
-                        public boolean taskWithBoolean() {
-                            ServerCommunication server = new ServerCommunication(_this);
-                            return server.login(email, password);
-                        }
+                    email = loginEmailEdt.getText().toString().trim();
+                    password = loginPasswordEdt.getText().toString().trim();
+                    if (email.isEmpty()) {
+                        InputValidation.errFieldEmpty(loginEmailEdt);
+                    } else if (!InputValidation.isValidEmail(email)) {
+                        InputValidation.errInvalidEmail(loginEmailEdt);
+                    } else if (password.isEmpty()) {
+                        InputValidation.errFieldEmpty(loginPasswordEdt);
+                    } else if (!InputValidation.isValidPassword(password)) {
+                        InputValidation.errInvalidPassword(loginPasswordEdt);
+                    } else {
+                        ServerRequestTask loginTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+                            @Override
+                            public boolean taskWithBoolean() {
+                                ServerCommunication server = new ServerCommunication(_this);
+                                return server.login(email, password);
+                            }
 
-                        @Override
-                        public JSONArray taskWithJSONArray() {
-                            return null;
+                            @Override
+                            public JSONArray taskWithJSONArray() {
+                                return null;
+                            }
+                        });
+                        try {
+                            boolean loggedIn = (boolean) loginTask.execute("boolean").get();
+                            if (loggedIn) {
+                                Intent homeActivity = new Intent(v.getContext(), HomeActivity.class);
+                                startActivity(homeActivity);
+                            } else {
+                                Toast.makeText(_this, "Invalid Login!", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
                         }
-                    });
-                    try {
-                        boolean loggedIn = (boolean)loginTask.execute("boolean").get();
-                        if (loggedIn) {
-                            Intent homeActivity = new Intent(v.getContext(), HomeActivity.class);
-                            startActivity(homeActivity);
-                        } else {
-                            Toast.makeText(_this, "Invalid Login!", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
                     }
+
+
                 } else {
                     Log.d("Inside onLogin else", TAG);
                     Connectivity.noInternetToast(_this);

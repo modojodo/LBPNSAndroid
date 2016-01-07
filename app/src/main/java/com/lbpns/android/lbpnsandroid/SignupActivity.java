@@ -23,6 +23,7 @@ public class SignupActivity extends Activity {
     private Button mSignupBtn;
     private EditText signupEmailEdt;
     private EditText signupPasswordEdt;
+    private EditText signupConfPasswordEdt;
     private final Context _this = this;
 
     @Override
@@ -32,41 +33,60 @@ public class SignupActivity extends Activity {
         mSignupBtn = (Button) findViewById(R.id.signupBtn);
         signupEmailEdt = (EditText) findViewById(R.id.signupEmailText);
         signupPasswordEdt = (EditText) findViewById(R.id.signupPasswordText);
+        signupConfPasswordEdt = (EditText) findViewById(R.id.signupConfPasswordText);
         mSignupBtn.setOnClickListener(new View.OnClickListener() {
-            String email, password;
+            String email, password, confPassword;
 
             @Override
             public void onClick(View v) {
                 Log.d("Signup button pressed", TAG);
-                email = signupEmailEdt.getText().toString().trim();
-                password = signupPasswordEdt.getText().toString().trim();
-                boolean connectecd = Connectivity.isConnectedToInternet(_this);
-                if (connectecd) {
-                    ServerRequestTask loginTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
-                        @Override
-                        public boolean taskWithBoolean() {
-                            ServerCommunication server = new ServerCommunication(_this);
-                            return server.signup(email, password);
-                        }
 
-                        @Override
-                        public JSONArray taskWithJSONArray() {
-                            return null;
+                boolean connectecd = Connectivity.isConnectedToInternet(_this);
+                InputValidation.removeAllErrors(signupEmailEdt, signupPasswordEdt, signupConfPasswordEdt);
+                if (connectecd) {
+                    email = signupEmailEdt.getText().toString().trim();
+                    password = signupPasswordEdt.getText().toString().trim();
+                    confPassword = signupConfPasswordEdt.getText().toString().trim();
+                    if (email.isEmpty()) {
+                        InputValidation.errFieldEmpty(signupEmailEdt);
+                    } else if (!InputValidation.isValidEmail(email)) {
+                        InputValidation.errInvalidEmail(signupEmailEdt);
+                    } else if (password.isEmpty()) {
+                        InputValidation.errFieldEmpty(signupPasswordEdt);
+                    } else if (!InputValidation.isValidPassword(password)) {
+                        InputValidation.errInvalidPassword(signupPasswordEdt);
+                    } else if (!InputValidation.isSamePassword(password, confPassword)) {
+                        InputValidation.errNotSamePassword(signupPasswordEdt, signupConfPasswordEdt);
+                    } else {
+                        ServerRequestTask loginTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+                            @Override
+                            public boolean taskWithBoolean() {
+                                ServerCommunication server = new ServerCommunication(_this);
+                                return server.signup(email, password);
+                            }
+
+                            @Override
+                            public JSONArray taskWithJSONArray() {
+                                return null;
+                            }
+                        });
+                        try {
+                            boolean signedUp = (boolean) loginTask.execute("boolean").get();
+                            if (signedUp) {
+                                System.out.println("signedUp: " + signedUp);
+                                Intent homeActivity = new Intent(SignupActivity.this, HomeActivity.class);
+                                startActivity(homeActivity);
+                            } else {
+                                System.out.println("signedUp: "+signedUp);
+                                Toast.makeText(_this, "User already exists", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
                         }
-                    });
-                    try {
-                        boolean signedUp = (boolean)loginTask.execute("boolean").get();
-                        if (signedUp) {
-                            Intent homeActivity = new Intent(v.getContext(), HomeActivity.class);
-                            startActivity(homeActivity);
-                        } else {
-                            Toast.makeText(_this, "User already exists", Toast.LENGTH_SHORT);
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
                     }
+
                 } else {
                     Log.d("Inside onSignup else", TAG);
                     Connectivity.noInternetToast(_this);
@@ -74,6 +94,7 @@ public class SignupActivity extends Activity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         Intent mainActivity = new Intent(this, MainActivity.class);

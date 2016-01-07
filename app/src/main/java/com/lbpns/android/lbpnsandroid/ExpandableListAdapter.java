@@ -28,7 +28,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private static final double LATITUDE = 24.909898;
     private static final double LONGITUDE = 67.085690;
-    private static final float RADIUS = 1000;
+    private static final float RADIUS = 500;
     private static final int request = 5;
     private static final long EXPIRATION_TIME = -1;
     private Context context;
@@ -168,7 +168,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                         addProximityAlert(childPosition + request, lat, lon);
 
                     }else if (headerTitle == "McDonalds" && childText == "Beef Burger") {
-                        double lat = 24.909898, lon = 67.085690;
+                        double lat = 24.884176, lon = 67.161777;
                         addProximityAlert(childPosition + request, lat, lon);
                     }
                 }

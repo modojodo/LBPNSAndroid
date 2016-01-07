@@ -47,49 +47,35 @@ public class RestaurantFragment extends Fragment {
     private void constructData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
-
-        // Adding child data
-        for(int i=0;i<PreferenceMenuData.listRestaurant.size();i++) {
-            listDataHeader.add(PreferenceMenuData.listRestaurantS.toString());
-        }
-
-        for (int i=0;i<PreferenceMenuData.listCuisine.size();i++){
-
-        }
-
 //        listDataHeader.add("KFC");
 //        listDataHeader.add("Pizza Point");
 //        listDataHeader.add("McDonalds");
 //
-//        for (int i=0;i<DealData.listTitleS.length;i++){
-//            listDataHeader.add(DealData.listTitleS[i].toString());
-//        }
+        for (int i=0;i<DealData.listTitleS.length;i++){
+            listDataHeader.add(DealData.listTitleS[i].toString());
+        }
 
         // Adding child data
-        List<String> kfc = new ArrayList<String>();
-        kfc.add("Burger");
-        kfc.add("Chicken Wings");
-        kfc.add("Sandwich");
-        kfc.add("Fajita Roll");
 
 
-        List<String> pizzapoint = new ArrayList<String>();
-        pizzapoint.add("Chicken Tikka");
-        pizzapoint.add("Fajita");
-        pizzapoint.add("Afghani Tikka");
-        pizzapoint.add("Garlic Bread");
+        List<String> cusisineList = new ArrayList<String>();
+
+        for(int i=0;i<DealData.listTitleS.length;i++)
+        {
+            listDataChild.put(listDataHeader.get(i), DealData.listContent.get(i));
+        }
+//        kfc.add("Burger");
+//        kfc.add("Chicken Wings");
+//        kfc.add("Sandwich");
+//        kfc.add("Fajita Roll");
 
 
-        List<String> md = new ArrayList<String>();
-        md.add("Chicken Burger");
-        md.add("Jumbo Zinger");
-        md.add("Club Sandwich");
-        md.add("Beef Burger");
 
 
-        listDataChild.put(listDataHeader.get(0), kfc); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), pizzapoint);
-        listDataChild.put(listDataHeader.get(2), md);
+//        listDataChild.put(listDataHeader.get(0),kfccuisines); // Header, Child data
+//        listDataChild.put(listDataHeader.get(1), pizzapointcuisine);
+//        listDataChild.put(listDataHeader.get(2), md);
     }
 }
+
 

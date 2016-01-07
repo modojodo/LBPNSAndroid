@@ -59,7 +59,7 @@ public class LoginActivity extends Activity {
                             Intent homeActivity = new Intent(v.getContext(), HomeActivity.class);
                             startActivity(homeActivity);
                         } else {
-                            Toast.makeText(_this, "Invalid Login!", Toast.LENGTH_SHORT);
+                            Toast.makeText(_this, "Invalid Login!", Toast.LENGTH_SHORT).show();
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();

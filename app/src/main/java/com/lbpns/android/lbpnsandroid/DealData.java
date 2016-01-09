@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -28,8 +29,11 @@ public class DealData extends Activity {
     static ArrayList<String> listTitle;
     static ArrayList<ArrayList<String>> listContent;
 
+
+
     private Button btnDeal;
     static String listTitleS[], listContentS[];
+    static ArrayList<String> individualRestaurantCuisines;
     static String[] name = new String[]{"Zinger", "Burger", "Pizza", "Kabab", "Katakat", "Karahi", "Handi", "Biryani", "Sandwich", "Icecream"};
 
     @Override
@@ -42,7 +46,7 @@ public class DealData extends Activity {
         btnDeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(DealData.this, SelectionMenu.class);
+                Intent i = new Intent(DealData.this, MainMenu.class);
                 startActivity(i);
             }
         });
@@ -51,7 +55,7 @@ public class DealData extends Activity {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
-                    URL url = new URL("http://192.168.0.105:3000/fetchDeals");
+                    URL url = new URL("http://192.168.1.8:3000/getPreferencesByRestaurant");
                     ServerCommunication server = new ServerCommunication(getApplicationContext());
                     return server.getRequest(url);
                 } catch (MalformedURLException e) {
@@ -73,20 +77,30 @@ public class DealData extends Activity {
             JSONArray fetchedDeals = (JSONArray) fetchTask.execute("jsonarray").get();
 //            String s = fetchedDeals.toString();
 
+            JSONArray jsonArray = new JSONArray();
             System.out.println(fetchedDeals);
             if (fetchedDeals != null) {
                 int len = fetchedDeals.length();
 
                 for (int i = 0; i < len; i++) {
 
-                    JSONArray jsonArrayR = fetchedDeals.getJSONObject(i).getJSONArray("restaurants");
+
+
+
+
+                    JSONArray jsonArrayR = fetchedDeals.getJSONObject(i).getJSONArray("restaurant");
+
+
+
                     String rTitle = jsonArrayR.getString(0);
-                    // listTitle.add(fetchedDeals.getJSONObject(i).getString("dealTitle"));
+
 
                     listTitle.add(rTitle);
-                    JSONArray jsonArrayC = fetchedDeals.getJSONObject(i).getJSONArray("cuisines");
+
+
+                    JSONArray jsonArrayC = fetchedDeals.getJSONObject(i).getJSONArray("cuisines"); //cuisines
                     int cuisineLen = jsonArrayC.length();
-                    ArrayList<String> individualRestaurantCuisines = new ArrayList<String>();
+                    individualRestaurantCuisines = new ArrayList<String>();
                     for (int j = 0; j < cuisineLen; j++) {
                         String cTitle = jsonArrayC.getString(j);
                         individualRestaurantCuisines.add(cTitle);
@@ -121,8 +135,8 @@ public class DealData extends Activity {
             listTitleS = new String[listTitle.size()];
             listTitleS = listTitle.toArray(listTitleS);
 
-//            listContentS = new String[listContent.size()];
-////            listContentS = listContent.toArray(listContentS);
+            listContentS = new String[individualRestaurantCuisines.size()];
+            listContentS = individualRestaurantCuisines.toArray(listContentS);
 
 //            System.out.println(list.get(1));
 //

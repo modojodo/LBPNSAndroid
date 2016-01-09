@@ -25,6 +25,9 @@ public class DealDetailsFragment extends Fragment {
 
     //    txt.setText(DealData.listContentS);
 
+
+
+
         if(DealData.listContentS[b.getInt("position")] != "") {
             txt.setText(DealData.listContentS[b.getInt("position")]);
         }

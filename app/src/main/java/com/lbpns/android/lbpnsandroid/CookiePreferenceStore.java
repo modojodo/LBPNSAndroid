@@ -12,7 +12,7 @@ public class CookiePreferenceStore {
 
     public static void saveValue(Context context, String value) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-        sharedPreferences.edit();
+      //  sharedPreferences.edit();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY, value);
         editor.commit();

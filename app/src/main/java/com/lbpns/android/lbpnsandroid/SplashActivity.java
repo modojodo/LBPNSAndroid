@@ -39,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
             try {
                 boolean authenticated = (boolean) authenticateTask.execute("boolean").get();
                 if (authenticated) {
-                    Intent homeActivity = new Intent(_this, HomeActivity.class);
+                    Intent homeActivity = new Intent(_this, DealData.class);
                     startActivity(homeActivity);
                 } else {
                     Intent mainActivity = new Intent(_this, MainActivity.class);

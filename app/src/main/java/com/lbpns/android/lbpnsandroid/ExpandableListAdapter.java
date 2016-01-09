@@ -56,7 +56,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
+    public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
@@ -94,21 +94,22 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     removeProximityAlert(childPosition + request);
 
                 } else {
+
+                    System.out.println("Inside not checked");
                     txtListChild.setChecked(true);
                     // Toast.makeText(context,childText + " Proximity Alert Added",Toast.LENGTH_SHORT).show();
                     savePreferences(headerTitle + childText, true);
 
                     //FOR CUISINE
 
-                    UserPref userPref = new UserPref();
 
 
-                    if (listHeader.toString() == "Burger" && listChild.toString() == "KFC") {
+                    if (listHeader.get(groupPosition) == "Burger" && listChild.get(listHeader.get(groupPosition)).get(childPosition) == "KFC") {
                         double lat = 24.909898, lon = 67.085690;
                         addProximityAlert(childPosition + request, lat, lon);
                        // userPref.setSharedPref();
 
-                    } else if (headerTitle == "Burger" && childText == "McDonalds") {
+                    } else if (headerTitle == "Burger" && txtListChild.toString() == "McDonalds") {
                         double lat = 24.798466, lon = 67.034419;
                         addProximityAlert(childPosition + request, lat, lon);
                     } else if (headerTitle == "Pizza" && childText == "Pizza Point") {
@@ -124,19 +125,21 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
                     //FOR RESTAURANT
 
-                    if (listHeader.toString() == "KFC" && listChild.toString() == "Burger") {
+                    if (listHeader.get(groupPosition) == "KFC" && listChild.get(listHeader.get(groupPosition)).get(childPosition) == "Burger") {
+                        System.out.println("Inside KFC");
                         double lat = 24.909898, lon = 67.085690;
                         addProximityAlert(childPosition + request, lat, lon);
                     } else if (headerTitle == "KFC" && childText == "Juice") {
                         double lat = 24.909898, lon = 67.085690;
                         addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle == "KFC" && childText == "Sandwich") {
+                    } else if (listHeader.toString() == "KFC" && listChild.toString() == "Juice") {
                         double lat = 24.909898, lon = 67.085690;
                         addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle == "KFC" && childText == "Fajita Roll") {
+                    } else if (headerTitle == "KFC" && childText == "Wings") {
                         double lat = 24.909898, lon = 67.085690;
+                        System.out.println("Inside KFC");
                         addProximityAlert(childPosition + request, lat, lon);
 
                     } else if (headerTitle == "Pizza Point" && childText == "Chicken Tikka") {

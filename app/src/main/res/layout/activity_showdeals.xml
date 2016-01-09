@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ivRestaurant"
-        android:src="@drawable/btnRestaurant"
+        android:src="@drawable/btnrestaurant"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="85dp"/>
@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ivCuisine"
-        android:src="@drawable/btnCuisine"
+        android:src="@drawable/btncuisine"
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/ivRestaurant"
         android:layout_alignStart="@+id/ivRestaurant"

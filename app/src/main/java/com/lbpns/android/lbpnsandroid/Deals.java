@@ -36,7 +36,7 @@ public class Deals {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
-                    URL url = new URL("http://192.168.1.8:3000/" + path);
+                    URL url = new URL("http://192.168.1.5:3000/" + path);
                     ServerCommunication server = new ServerCommunication(context);
                     return server.getRequest(url);
                 } catch (MalformedURLException e) {
@@ -107,7 +107,7 @@ public class Deals {
         }
     }
 
-    void getPreferencesByCuisine(final Context context, final String path) {
+    void getPreferencesByCuisine() {
 
         listCuisineByCuisine = new ArrayList<String>();
         listRestaurantByCuisine = new ArrayList<ArrayList<String>>();

@@ -18,6 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -27,14 +28,14 @@ public class DealData extends Activity {
 
 
     static ArrayList<String> listTitle;
-    static ArrayList<ArrayList<String>> listContent;
+    static ArrayList<List<String>> listContent;
 
 
 
     private Button btnDeal;
     static String listTitleS[], listContentS[];
-    static ArrayList<String> individualRestaurantCuisines;
-    static String[] name = new String[]{"Zinger", "Burger", "Pizza", "Kabab", "Katakat", "Karahi", "Handi", "Biryani", "Sandwich", "Icecream"};
+    static List<String> individualRestaurantCuisines;
+//    static String[] name = new String[]{"Zinger", "Burger", "Pizza", "Kabab", "Katakat", "Karahi", "Handi", "Biryani", "Sandwich", "Icecream"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class DealData extends Activity {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
-                    URL url = new URL("http://192.168.1.8:3000/getPreferencesByRestaurant");
+                    URL url = new URL("http://192.168.1.5:3000/getPreferencesByRestaurant");
                     ServerCommunication server = new ServerCommunication(getApplicationContext());
                     return server.getRequest(url);
                 } catch (MalformedURLException e) {
@@ -72,7 +73,7 @@ public class DealData extends Activity {
         try {
 
             listTitle = new ArrayList<String>();
-            listContent = new ArrayList<ArrayList<String>>();
+            listContent = new ArrayList<List<String>>();
 
             JSONArray fetchedDeals = (JSONArray) fetchTask.execute("jsonarray").get();
 //            String s = fetchedDeals.toString();

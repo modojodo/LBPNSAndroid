@@ -41,6 +41,7 @@ public class DealActivity extends Activity implements DealFragment.DealFragmentI
 
             b.putInt("position", position);
 
+
             dfragment.setArguments(b);
 
             fragmentTransaction.add(R.id.detail_fragment_container, dfragment, "com.lbpns.android.lbpnsandroid.dealtitle.details");

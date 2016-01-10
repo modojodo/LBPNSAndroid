@@ -65,7 +65,7 @@ public class LoginActivity extends Activity {
                         try {
                             boolean loggedIn = (boolean) loginTask.execute("boolean").get();
                             if (loggedIn) {
-                                Intent homeActivity = new Intent(v.getContext(), HomeActivity.class);
+                                Intent homeActivity = new Intent(v.getContext(), DealData.class);
                                 startActivity(homeActivity);
                             } else {
                                 Toast.makeText(_this, "Invalid Login!", Toast.LENGTH_SHORT).show();

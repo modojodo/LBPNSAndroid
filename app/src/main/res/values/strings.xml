@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">LBPNSAndroid</string>
     <string name="action_settings">Settings</string>
-    <string name="login_btn">login</string>
-    <string name="signup_btn">signup</string>
+    <string name="login_btn">LOGIN</string>
+    <string name="signup_btn">SIGNUP</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="network_not_connected_toast">No internet! Please connect to the internet.</string>
     <string name="title_activity_signup">SignupActivity</string>

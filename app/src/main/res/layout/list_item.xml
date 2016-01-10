@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:textSize="17dip"
         android:textStyle="bold"
+        android:focusable="false"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         android:clickable="true"
         android:paddingTop="5dp"

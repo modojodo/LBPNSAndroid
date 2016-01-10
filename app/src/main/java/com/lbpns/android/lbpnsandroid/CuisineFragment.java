@@ -29,6 +29,13 @@ public class CuisineFragment extends Fragment {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
 
+    static ArrayList<String> listTitle;
+    static ArrayList<List<String>> listContent;
+
+
+
+    static String listTitleS[], listContentS[];
+    static List<String> individualRestaurantCuisines;
 
     @Nullable
     @Override
@@ -36,6 +43,7 @@ public class CuisineFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_explistview,container,false);
 
+        getData();
 
         expListView = (ExpandableListView) rootView.findViewById(R.id.lvExpanded);
 
@@ -54,29 +62,106 @@ public class CuisineFragment extends Fragment {
 
 
 
+    void getData(){
+
+        ServerRequestTask fetchTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+            @Override
+            public JSONArray taskWithJSONArray() {
+                try {
+                    URL url = new URL(ServerCommunication.GET_PREFERENCES_BY_CUISINE);
+                    ServerCommunication server = new ServerCommunication(getContext());
+                    return server.getRequest(url);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            public boolean taskWithBoolean() {
+                return false;
+            }
+        });
+
+        try {
+
+            listTitle = new ArrayList<String>();
+            listContent = new ArrayList<List<String>>();
+
+            JSONArray fetchedDeals = (JSONArray) fetchTask.execute("jsonarray").get();
+
+            JSONArray jsonArray = new JSONArray();
+            System.out.println(fetchedDeals);
+            if (fetchedDeals != null) {
+                int len = fetchedDeals.length();
+
+                for (int i = 0; i < len; i++) {
+
+
+
+                    JSONArray jsonArrayR = fetchedDeals.getJSONObject(i).getJSONArray("cuisines");
+
+
+
+                    String rTitle = jsonArrayR.getString(0);
+
+
+                    listTitle.add(rTitle);
+
+
+                    JSONArray jsonArrayC = fetchedDeals.getJSONObject(i).getJSONArray("restaurant"); //cuisines
+                    int cuisineLen = jsonArrayC.length();
+                    individualRestaurantCuisines = new ArrayList<String>();
+                    for (int j = 0; j < cuisineLen; j++) {
+                        String cTitle = jsonArrayC.getString(j);
+                        individualRestaurantCuisines.add(cTitle);
+                    }
+//                    String strArr[] =  new String[individualRestaurantCuisines.size()];
+//                    strArr = individualRestaurantCuisines.toArray(strArr);
+                    listContent.add(individualRestaurantCuisines);
+
+//
+                }
+
+
+//
+            }
+
+
+
+            listTitleS = new String[listTitle.size()];
+            listTitleS = listTitle.toArray(listTitleS);
+
+            listContentS = new String[individualRestaurantCuisines.size()];
+            listContentS = individualRestaurantCuisines.toArray(listContentS);
+
+
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     private void constructData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
 
-        // Adding child data
-        listDataHeader.add("Burger");
-        listDataHeader.add("Pizza");
-        listDataHeader.add("Sandwich");
+        for (int i=0;i<listTitleS.length;i++){
+            listDataHeader.add(listTitleS[i].toString());
+        }
 
-        // Adding child data
-        List<String> burger = new ArrayList<String>();
-        burger.add("KFC");
-        burger.add("McDonalds");
 
-        List<String> pizza = new ArrayList<String>();
-        pizza.add("Pizza Point");
 
-        List<String> sandwich = new ArrayList<String>();
-        sandwich.add("KFC");
-        sandwich.add("McDonalds");
 
-        listDataChild.put(listDataHeader.get(0), burger); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), pizza);
-        listDataChild.put(listDataHeader.get(2), sandwich);
+
+
+        for(int i=0;i<listTitleS.length;i++)
+        {
+            listDataChild.put(listDataHeader.get(i), listContent.get(i));
+        }
     }
 }

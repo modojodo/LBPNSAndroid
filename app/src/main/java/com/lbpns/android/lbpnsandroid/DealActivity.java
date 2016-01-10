@@ -18,6 +18,7 @@ public class DealActivity extends Activity implements DealFragment.DealFragmentI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deal_main);
 
+
     }
 
     @Override

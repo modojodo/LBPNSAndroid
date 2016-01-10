@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.location.LocationManager;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +34,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private static final float RADIUS = 500;
     private static final int request = 5;
     private static final long EXPIRATION_TIME = -1;
+    private static final String TAG = "ExpandableListAdapter";
     private Context context;
     private List<String> listHeader; // header titles
     // child data in format of header title, child title
@@ -74,7 +76,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListItem);
 
 
-
         txtListChild.setText(childText);
 
 
@@ -99,86 +100,81 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     removeProximityAlert(childPosition + request);
 
                 } else {
-
                     System.out.println("Inside not checked");
+
                     txtListChild.setChecked(true);
-                    // Toast.makeText(context,childText + " Proximity Alert Added",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context,childText + " Proximity Alert Added",Toast.LENGTH_SHORT).show();
                     savePreferences(headerTitle + childText, true);
 
                     //FOR CUISINE
 
+                    Log.d(TAG, headerTitle.toString().trim());
+                    Log.d(TAG, childText.toString().trim());
 
-
-
-                    if (listHeader.get(groupPosition) == "Burger" && listChild.get(listHeader.get(groupPosition)).get(childPosition) == "KFC") {
+                    if (headerTitle.equals("Burger") && txtListChild.equals("KFC")) {
                         double lat = 24.909898, lon = 67.085690;
                         addProximityAlert(childPosition + request, lat, lon);
-                       // userPref.setSharedPref();
+                        // userPref.setSharedPref();
 
-                    } else if (headerTitle == "Burger" && txtListChild.toString() == "McDonalds") {
+                    } else if (headerTitle.equals("Burger") && txtListChild.equals("McDonalds")) {
                         double lat = 24.798466, lon = 67.034419;
                         addProximityAlert(childPosition + request, lat, lon);
-                    } else if (headerTitle == "Pizza" && childText == "Pizza Point") {
+                    } else if (headerTitle.equals("Pizza") && childText.equals("Pizza Point")) {
                         double lat = 24.928619, lon = 67.112992;
                         addProximityAlert(childPosition + request, lat, lon);
-                    } else if (headerTitle == "Sandwich" && childText == "McDonalds") {
+                    } else if (headerTitle.equals("Sandwich") && childText.equals("McDonalds")) {
                         double lat = 24.798466, lon = 67.034419;
                         addProximityAlert(childPosition + request, lat, lon);
-                    } else if (headerTitle == "Sandwich" && childText == "KFC") {
+                    } else if (headerTitle.equals("Sandwich") && childText.equals("KFC")) {
                         double lat = 24.883264, lon = 67.161269;
                         addProximityAlert(childPosition + request, lat, lon);
-                    }else if (listHeader.get(groupPosition) == "KFC" && listChild.get(listHeader.get(groupPosition)).get(childPosition) == "123a") {
+                    } else if (listHeader.get(groupPosition).equals("KFC") && listChild.get(listHeader.get(groupPosition)).get(childPosition).equals("123a")) {
                         System.out.println("Inside KFC");
                         double lat = 24.909898, lon = 67.085690;
                         addProximityAlert(childPosition + request, lat, lon);
-                    } else if (headerTitle == "KFC" && childText == "Juice") {
+                    } else if (headerTitle.equals("KFC") && childText.equals("Juice")) {
                         double lat = 24.909898, lon = 67.085690;
                         addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (listHeader.toString() == "KFC" && listChild.toString() == "Juice") {
+                    } else if (listHeader.toString().equals("KFC") && childText.equals("Juice")) {
                         double lat = 24.909898, lon = 67.085690;
                         addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle == "KFC" && childText == "Wings") {
+                    } else if (headerTitle.equals("KFC") && childText.equals("Wings")) {
                         double lat = 24.909898, lon = 67.085690;
                         System.out.println("Inside KFC");
                         addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle == "Pizza Point" && childText == "Chicken Tikka") {
+                    } else if (headerTitle.equals("Pizza Point") && childText.equals("Chicken Tikka")) {
                         double lat = 24.928619, lon = 67.112992;
                         addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle == "Pizza Point" && childText == "Fajita") {
+                    } else if (headerTitle.equals("Pizza Point") && childText.equals("Fajita")) {
                         double lat = 24.928619, lon = 67.112992;
                         addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle == "Pizza Point" && childText == "Afghani Tikka") {
+                    } else if (headerTitle.equals("Pizza Point") && childText.equals("Afghani Tikka")) {
                         double lat = 24.928619, lon = 67.112992;
                         addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle == "Pizza Point" && childText == "Garlic Bread") {
+                    } else if (headerTitle.equals("Pizza Point") && childText.equals("Garlic Bread")) {
                         double lat = 24.928619, lon = 67.112992;
                         addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle == "McDonalds" && childText == "Chicken Burger") {
+                    } else if (headerTitle.equals("McDonalds") && childText.equals("Chicken Burger")) {
                         double lat = 24.798466, lon = 67.034419;
                         addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle == "McDonalds" && childText == "Jumbo Zinger") {
+                    } else if (headerTitle.equals("McDonalds") && childText.equals("Jumbo Zinger")) {
                         double lat = 24.909898, lon = 67.085690;
                         addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle == "McDonalds" && childText == "Club Sandwich") {
+                    } else if (headerTitle.equals("McDonalds") && childText.equals("Club Sandwich")) {
                         double lat = 24.909898, lon = 67.085690;
                         addProximityAlert(childPosition + request, lat, lon);
 
-                    }else if (headerTitle == "McDonalds" && childText == "Beef Burger") {
-                        double lat = 24.884176, lon = 67.161777;
-                        addProximityAlert(childPosition + request, lat, lon);
                     }
                 }
-
-
 
 
             }
@@ -191,7 +187,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private void removeProximityAlert(int requestCode) {
         LocationManager lManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         Intent intent = new Intent("com.lbpns.android.lbpnsandroid");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(),requestCode,intent,0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), requestCode, intent, 0);
         if (ContextCompat.checkSelfPermission(context.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             lManager.removeProximityAlert(pendingIntent);
             Toast.makeText(context.getApplicationContext(), "Proximity Alert Removed!", Toast.LENGTH_LONG).show();
@@ -199,21 +195,23 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    private void addProximityAlert(int requestCode,double lat,double lon){
+    private void addProximityAlert(int requestCode, double lat, double lon) {
+        Log.d(TAG, "addProximityAlert called!");
         LocationManager lManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         Intent intent = new Intent("com.lbpns.android.lbpnsandroid");
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(),requestCode,intent,0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), requestCode, intent, 0);
 
-        if(lManager != null){
+        if (lManager != null) {
             if (ContextCompat.checkSelfPermission(context.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                lManager.addProximityAlert(lat,lon, RADIUS, EXPIRATION_TIME, pendingIntent);
+                lManager.addProximityAlert(lat, lon, RADIUS, EXPIRATION_TIME, pendingIntent);
                 Toast.makeText(context.getApplicationContext(), "Proximity Alert Added!", Toast.LENGTH_LONG).show();
 
             }
         }
 
     }
+
     @Override
     public int getChildrenCount(int groupPosition) {
         return this.listChild.get(this.listHeader.get(groupPosition))
@@ -235,7 +233,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return groupPosition;
     }
 
-    private void savePreferences(String key,boolean value) {
+    private void savePreferences(String key, boolean value) {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 

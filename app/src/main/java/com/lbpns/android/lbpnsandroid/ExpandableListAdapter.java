@@ -11,10 +11,12 @@ import android.location.LocationManager;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,7 +73,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         final CheckedTextView txtListChild = (CheckedTextView) convertView
                 .findViewById(R.id.lblListItem);
 
+
+
         txtListChild.setText(childText);
+
 
         loadSavedPreferences(headerTitle + childText);
         if (checkBoxValue) {
@@ -104,6 +109,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
 
 
+
                     if (listHeader.get(groupPosition) == "Burger" && listChild.get(listHeader.get(groupPosition)).get(childPosition) == "KFC") {
                         double lat = 24.909898, lon = 67.085690;
                         addProximityAlert(childPosition + request, lat, lon);
@@ -119,13 +125,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                         double lat = 24.798466, lon = 67.034419;
                         addProximityAlert(childPosition + request, lat, lon);
                     } else if (headerTitle == "Sandwich" && childText == "KFC") {
-                        double lat = 24.909898, lon = 67.085690;
+                        double lat = 24.883264, lon = 67.161269;
                         addProximityAlert(childPosition + request, lat, lon);
-                    }
-
-                    //FOR RESTAURANT
-
-                    if (listHeader.get(groupPosition) == "KFC" && listChild.get(listHeader.get(groupPosition)).get(childPosition) == "Burger") {
+                    }else if (listHeader.get(groupPosition) == "KFC" && listChild.get(listHeader.get(groupPosition)).get(childPosition) == "123a") {
                         System.out.println("Inside KFC");
                         double lat = 24.909898, lon = 67.085690;
                         addProximityAlert(childPosition + request, lat, lon);

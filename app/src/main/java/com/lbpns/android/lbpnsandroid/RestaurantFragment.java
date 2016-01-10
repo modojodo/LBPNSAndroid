@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
@@ -42,6 +43,13 @@ public class RestaurantFragment extends Fragment {
         // setting list adapter
         expListView.setAdapter(listAdapter);
 
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Toast.makeText(getContext(),"Hyee",Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
 
         return rootView;
     }
@@ -62,10 +70,24 @@ public class RestaurantFragment extends Fragment {
 
         List<String> cusisineList = new ArrayList<String>();
 
-        for(int i=0;i<DealData.listTitleS.length;i++)
-        {
-            listDataChild.put(listDataHeader.get(i), DealData.listContent.get(i));
-        }
+
+        List<String> a = new ArrayList<String>();
+        List<String> b = new ArrayList<String>();
+        List<String> c = new ArrayList<String>();
+
+        a.add("123a");
+        a.add("123aa");
+
+        b.add("123b");
+        b.add("123bb");
+
+        c.add("123c");
+        c.add("123cc");
+//
+//        for(int i=0;i<DealData.listTitleS.length;i++)
+//        {
+//            listDataChild.put(listDataHeader.get(i), DealData.listContent.get(i));
+//        }
 //        kfc.add("Burger");
 //        kfc.add("Chicken Wings");
 //        kfc.add("Sandwich");
@@ -74,9 +96,9 @@ public class RestaurantFragment extends Fragment {
 
 
 
-//        listDataChild.put(listDataHeader.get(0),kfccuisines); // Header, Child data
-//        listDataChild.put(listDataHeader.get(1), pizzapointcuisine);
-//        listDataChild.put(listDataHeader.get(2), md);
+        listDataChild.put(listDataHeader.get(0),a); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), b);
+        listDataChild.put(listDataHeader.get(2), c);
     }
 }
 

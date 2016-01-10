@@ -56,7 +56,7 @@ public class DealData extends Activity {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
-                    URL url = new URL("http://192.168.1.5:3000/getPreferencesByRestaurant");
+                    URL url = new URL("http://192.168.0.104:3000/getPreferencesByRestaurant");
                     ServerCommunication server = new ServerCommunication(getApplicationContext());
                     return server.getRequest(url);
                 } catch (MalformedURLException e) {

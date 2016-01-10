@@ -28,10 +28,7 @@ public class CuisineFragment extends Fragment {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-    private static ArrayList<String> listTitle;
-    private static ArrayList<String> listContent;
 
-    static String listTitleS[],listContentS[];
 
     @Nullable
     @Override
@@ -55,65 +52,7 @@ public class CuisineFragment extends Fragment {
         return rootView;
     }
 
-    void getData() {
 
-        ServerRequestTask fetchTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
-            @Override
-            public JSONArray taskWithJSONArray() {
-                try {
-                    URL url = new URL("http://192.168.1.10:3000/fetchDeals");
-                    ServerCommunication server = new ServerCommunication(getContext());
-                    return server.getRequest(url);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            public boolean taskWithBoolean() {
-                return false;
-            }
-        });
-        try {
-
-            listTitle = new ArrayList<String>();
-            listContent = new ArrayList<String>();
-
-            JSONArray fetchedDeals = null;
-            try {
-                fetchedDeals = (JSONArray) fetchTask.execute("jsonarray").get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-
-            if (fetchedDeals != null) {
-                int len = fetchedDeals.length();
-                for (int i = 0; i < len; i++) {
-
-                    listTitle.add(fetchedDeals.getJSONObject(i).getString("dealTitle"));
-
-                    listContent.add(fetchedDeals.getJSONObject(i).getString("dealContent"));
-                }
-
-            }
-
-            // listContent.add(fetchedDeals.getJSONObject(1).getString("dealContent"));
-
-//            System.out.println(fetchedDeals.getJSONObject(1).getString("dealContent"));
-
-            listTitleS = new String[listTitle.size()];
-            listTitleS = listTitle.toArray(listTitleS);
-
-            listContentS = new String[listContent.size()];
-            listContentS = listContent.toArray(listContentS);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void constructData() {
         listDataHeader = new ArrayList<String>();

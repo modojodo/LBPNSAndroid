@@ -56,7 +56,7 @@ public class DealData extends Activity {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
-                    URL url = new URL("http://192.168.0.104:3000/getPreferencesByRestaurant");
+                    URL url = new URL(ServerCommunication.GET_PREFERENCES_BY_RESTAURANT);
                     ServerCommunication server = new ServerCommunication(getApplicationContext());
                     return server.getRequest(url);
                 } catch (MalformedURLException e) {
@@ -84,28 +84,15 @@ public class DealData extends Activity {
                 int len = fetchedDeals.length();
 
                 for (int i = 0; i < len; i++) {
-
-
-
-
-
                     JSONArray jsonArrayR = fetchedDeals.getJSONObject(i).getJSONArray("restaurant");
-
-
-
                     String rTitle = jsonArrayR.getString(0);
-
-
                     listTitle.add(rTitle);
-
-
                     JSONArray jsonArrayC = fetchedDeals.getJSONObject(i).getJSONArray("cuisines"); //cuisines
                     int cuisineLen = jsonArrayC.length();
                     individualRestaurantCuisines = new ArrayList<String>();
                     for (int j = 0; j < cuisineLen; j++) {
                         String cTitle = jsonArrayC.getString(j);
-                        individualRestaurantCuisines.add(cTitle);
-                    }
+                        individualRestaurantCuisines.add(cTitle);                    }
 //                    String strArr[] =  new String[individualRestaurantCuisines.size()];
 //                    strArr = individualRestaurantCuisines.toArray(strArr);
                     listContent.add(individualRestaurantCuisines);

@@ -1,15 +1,22 @@
 package com.lbpns.android.lbpnsandroid;
 
+import android.app.SearchManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ExpandableListView;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -25,20 +32,22 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by Asad 15R on 12/16/2015.
  */
-public class RestaurantFragment extends Fragment {
+public class RestaurantFragment extends Fragment{
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     CheckedTextView lblListItem;
     List<String> listDataHeader;
+    private JSONArray deals;
 
+    private TextView listHeaderTextView;
 
     HashMap<String, List<String>> listDataChild;
     static ArrayList<String> listTitle;
     static ArrayList<List<String>> listContent;
 
 
-
+    private SearchView searchView;
     private Button btnDeal;
     static String listTitleS[], listContentS[];
     static List<String> individualRestaurantCuisines;
@@ -54,7 +63,7 @@ public class RestaurantFragment extends Fragment {
 
         expListView = (ExpandableListView) rootView.findViewById(R.id.lvExpanded);
 
-        lblListItem = (CheckedTextView) rootView.findViewById(R.id.lblListItem);
+
 
 
 
@@ -66,25 +75,13 @@ public class RestaurantFragment extends Fragment {
         // setting list adapter
         expListView.setAdapter(listAdapter);
 
-        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Toast.makeText(getContext(), "Hyee", Toast.LENGTH_LONG).show();
-                return false;
-            }
-        });
 
-//        lblListItem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getContext(), "Hello! K", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
         return rootView;
     }
 
     void getData() {
-        ServerRequestTask fetchTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+        ServerRequestTask fetchTask = new ServerRequestTask(getActivity(),new ServerRequestTask.TaskHandler() {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
@@ -98,6 +95,12 @@ public class RestaurantFragment extends Fragment {
             }
 
             @Override
+            public void onTaskCompletion(JSONArray jsonArray) {
+                System.out.println(jsonArray.toString());
+                deals = jsonArray;
+            }
+
+            @Override
             public boolean taskWithBoolean() {
                 return false;
             }
@@ -108,18 +111,18 @@ public class RestaurantFragment extends Fragment {
             listTitle = new ArrayList<String>();
             listContent = new ArrayList<List<String>>();
 
-            JSONArray fetchedDeals = (JSONArray) fetchTask.execute("jsonarray").get();
+            fetchTask.execute("jsonarray");
 
             JSONArray jsonArray = new JSONArray();
-            System.out.println(fetchedDeals);
-            if (fetchedDeals != null) {
-                int len = fetchedDeals.length();
+          //  System.out.println(fetchedDeals);
+            if (deals != null) {
+                int len = deals.length();
 
                 for (int i = 0; i < len; i++) {
 
 
 
-                    JSONArray jsonArrayR = fetchedDeals.getJSONObject(i).getJSONArray("restaurant");
+                    JSONArray jsonArrayR = deals.getJSONObject(i).getJSONArray("restaurant");
 
 
 
@@ -129,7 +132,7 @@ public class RestaurantFragment extends Fragment {
                     listTitle.add(rTitle);
 
 
-                    JSONArray jsonArrayC = fetchedDeals.getJSONObject(i).getJSONArray("cuisines"); //cuisines
+                    JSONArray jsonArrayC = deals.getJSONObject(i).getJSONArray("cuisines"); //cuisines
                     int cuisineLen = jsonArrayC.length();
                     individualRestaurantCuisines = new ArrayList<String>();
                     for (int j = 0; j < cuisineLen; j++) {
@@ -152,15 +155,12 @@ public class RestaurantFragment extends Fragment {
             listTitleS = new String[listTitle.size()];
             listTitleS = listTitle.toArray(listTitleS);
 
-            listContentS = new String[individualRestaurantCuisines.size()];
-            listContentS = individualRestaurantCuisines.toArray(listContentS);
+//            listContentS = new String[individualRestaurantCuisines.size()];
+//            listContentS = individualRestaurantCuisines.toArray(listContentS);
 
 
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -192,6 +192,13 @@ public class RestaurantFragment extends Fragment {
 
 
     }
+
+
+
+
+
+
+
 }
 
 

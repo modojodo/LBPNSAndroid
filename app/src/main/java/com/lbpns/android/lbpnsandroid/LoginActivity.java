@@ -50,7 +50,7 @@ public class LoginActivity extends Activity {
                     } else if (!InputValidation.isValidPassword(password)) {
                         InputValidation.errInvalidPassword(loginPasswordEdt);
                     } else {
-                        ServerRequestTask loginTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+                        ServerRequestTask loginTask = new ServerRequestTask(LoginActivity.this,new ServerRequestTask.TaskHandler() {
                             @Override
                             public boolean taskWithBoolean() {
                                 ServerCommunication server = new ServerCommunication(_this);
@@ -60,6 +60,11 @@ public class LoginActivity extends Activity {
                             @Override
                             public JSONArray taskWithJSONArray() {
                                 return null;
+                            }
+
+                            @Override
+                            public void onTaskCompletion(JSONArray jsonArray) {
+
                             }
                         });
                         try {

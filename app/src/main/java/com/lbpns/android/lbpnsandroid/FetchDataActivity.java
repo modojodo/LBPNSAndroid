@@ -53,7 +53,7 @@ public class FetchDataActivity extends ListActivity {
         boolean connectecd = Connectivity.isConnectedToInternet(_this);
         if (connectecd) {
 
-            ServerRequestTask fetchTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+            ServerRequestTask fetchTask = new ServerRequestTask(FetchDataActivity.this,new ServerRequestTask.TaskHandler() {
                 @Override
                 public JSONArray taskWithJSONArray() {
                     try {
@@ -64,6 +64,11 @@ public class FetchDataActivity extends ListActivity {
                         e.printStackTrace();
                     }
                     return null;
+                }
+
+                @Override
+                public void onTaskCompletion(JSONArray jsonArray) {
+
                 }
 
                 @Override

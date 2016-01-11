@@ -21,6 +21,10 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,7 +40,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private static final long EXPIRATION_TIME = -1;
     private static final String TAG = "ExpandableListAdapter";
     private Context context;
-    private List<String> listHeader; // header titles
+    private List<String> listHeader;
+    // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> listChild;
     private boolean checkBoxValue;
@@ -47,6 +52,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         this.listHeader = listDataHeader;
         this.listChild = listChildData;
     }
+
+    private String titleSelected[];
+    private String contentSelected[];
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
@@ -100,16 +108,46 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     removeProximityAlert(childPosition + request);
 
                 } else {
+
+
                     System.out.println("Inside not checked");
 
                     txtListChild.setChecked(true);
 //                    Toast.makeText(context,childText + " Proximity Alert Added",Toast.LENGTH_SHORT).show();
                     savePreferences(headerTitle + childText, true);
 
+//                    JSONArray jsonArray = null;
+//                    JSONObject jsonObject = null;
+//                    for(int i=0;i<RestaurantFragment.listTitleS.length;i++) {
+//
+//                        for (int x = 0; x < RestaurantFragment.listTitleS.length; x++) {
+//                            if (headerTitle.equals(RestaurantFragment.listTitleS[x])) {
+////                                try {
+//////                                    jsonObject.put("restaurant",headerTitle.toString());
+//////                                } catch (JSONException e) {
+//////                                    e.printStackTrace();
+//////                                }
+//                                Log.d("Check",headerTitle);
+//                            }
+//                        }
+//
+//                        for (int y = 0; y < RestaurantFragment.listContentS.length; y++) {
+//                            if (childText.equals(RestaurantFragment.listContentS[y])) {
+////                                try {
+////                                    jsonObject.put("cuisine",childText.toString());
+////                                } catch (JSONException e) {
+////                                    e.printStackTrace();
+////                                }
+//                            }
+//                        }
+//                        jsonArray.put(jsonObject);
+//                    }
+
                     //FOR CUISINE
 
                     Log.d(TAG, headerTitle.toString().trim());
                     Log.d(TAG, childText.toString().trim());
+//                    Log.d("ASAD",jsonArray.toString());
 
                     if (headerTitle.equals("Burger") && txtListChild.equals("KFC")) {
                         double lat = 24.909898, lon = 67.085690;
@@ -271,6 +309,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         lblListHeader.setText(headerTitle);
         return convertView;
     }
+
+
 
     @Override
     public boolean hasStableIds() {

@@ -30,7 +30,7 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
 
-        ServerRequestTask fetchTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+        ServerRequestTask fetchTask = new ServerRequestTask(SplashScreen.this,new ServerRequestTask.TaskHandler() {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
@@ -41,6 +41,11 @@ public class SplashScreen extends Activity {
                     e.printStackTrace();
                 }
                 return null;
+            }
+
+            @Override
+            public void onTaskCompletion(JSONArray jsonArray) {
+
             }
 
             @Override

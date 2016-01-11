@@ -24,7 +24,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         boolean connectecd = Connectivity.isConnectedToInternet(_this);
         if (connectecd) {
-            ServerRequestTask authenticateTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+            ServerRequestTask authenticateTask = new ServerRequestTask(SplashActivity.this,new ServerRequestTask.TaskHandler() {
                 @Override
                 public boolean taskWithBoolean() {
                     ServerCommunication server = new ServerCommunication(_this);
@@ -34,6 +34,11 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public JSONArray taskWithJSONArray() {
                     return null;
+                }
+
+                @Override
+                public void onTaskCompletion(JSONArray jsonArray) {
+
                 }
             });
             try {

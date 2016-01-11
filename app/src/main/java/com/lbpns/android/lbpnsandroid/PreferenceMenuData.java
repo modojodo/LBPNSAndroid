@@ -34,7 +34,7 @@ public class PreferenceMenuData extends Activity {
 
         btnDeal = (Button) findViewById(R.id.btnDeal);
 
-        ServerRequestTask fetchTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+        ServerRequestTask fetchTask = new ServerRequestTask(PreferenceMenuData.this,new ServerRequestTask.TaskHandler() {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
@@ -45,6 +45,11 @@ public class PreferenceMenuData extends Activity {
                     e.printStackTrace();
                 }
                 return null;
+            }
+
+            @Override
+            public void onTaskCompletion(JSONArray jsonArray) {
+
             }
 
             @Override

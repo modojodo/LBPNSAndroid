@@ -1,5 +1,6 @@
 package com.lbpns.android.lbpnsandroid;
 
+import android.app.Activity;
 import android.content.Context;
 
 import org.json.JSONArray;
@@ -13,7 +14,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by Asad 15R on 1/2/2016.
  */
-public class Deals {
+public class Deals extends Activity {
 
     static ArrayList<String> listRestaurantByRestaurant;
     static ArrayList<ArrayList<String>> listCuisineByRestaurant;
@@ -28,11 +29,12 @@ public class Deals {
     static ArrayList<String> individualCuisineRestaurants;
 
     ServerRequestTask fetchTask;
+    private Context context;
 
     // final Context context = null;
 
     void makerServerRequest(final Context context, final String path) {
-        fetchTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+        fetchTask = new ServerRequestTask(Deals.this,new ServerRequestTask.TaskHandler() {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
@@ -43,6 +45,11 @@ public class Deals {
                     e.printStackTrace();
                 }
                 return null;
+            }
+
+            @Override
+            public void onTaskCompletion(JSONArray jsonArray) {
+
             }
 
             @Override

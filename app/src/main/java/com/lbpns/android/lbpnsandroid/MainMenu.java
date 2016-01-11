@@ -1,10 +1,12 @@
 package com.lbpns.android.lbpnsandroid;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 /**
  * Created by Asad 15R on 1/8/2016.
@@ -12,15 +14,20 @@ import android.widget.ImageView;
 public class MainMenu extends Activity {
 
     private ImageView iv2,iv3,iv4,iv5;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainmenu);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+
         iv2 = (ImageView) findViewById(R.id.imageView2);
         iv3 = (ImageView) findViewById(R.id.imageView3);
         iv4 = (ImageView) findViewById(R.id.imageView4);
         iv5 = (ImageView) findViewById(R.id.imageView5);
+
+
 
 //General Deals
         iv2.setOnClickListener(new View.OnClickListener() {
@@ -37,6 +44,14 @@ public class MainMenu extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainMenu.this,SelectionMenu.class);
                 startActivity(intent);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                overridePendingTransition(0,0);
+//                ProgressDialog progressDialog = new ProgressDialog(MainMenu.this);
+//
+//                progressDialog.setTitle("Hello");
+//                progressDialog.setMessage("Hello Message");
+//                progressDialog.show();
+
             }
         });
 

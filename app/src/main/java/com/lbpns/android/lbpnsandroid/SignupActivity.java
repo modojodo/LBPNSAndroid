@@ -58,7 +58,7 @@ public class SignupActivity extends Activity {
                     } else if (!InputValidation.isSamePassword(password, confPassword)) {
                         InputValidation.errNotSamePassword(signupPasswordEdt, signupConfPasswordEdt);
                     } else {
-                        ServerRequestTask loginTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+                        ServerRequestTask loginTask = new ServerRequestTask(SignupActivity.this,new ServerRequestTask.TaskHandler() {
                             @Override
                             public boolean taskWithBoolean() {
                                 ServerCommunication server = new ServerCommunication(_this);
@@ -68,6 +68,11 @@ public class SignupActivity extends Activity {
                             @Override
                             public JSONArray taskWithJSONArray() {
                                 return null;
+                            }
+
+                            @Override
+                            public void onTaskCompletion(JSONArray jsonArray) {
+
                             }
                         });
                         try {

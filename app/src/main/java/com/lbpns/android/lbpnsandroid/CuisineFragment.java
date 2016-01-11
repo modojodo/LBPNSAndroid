@@ -1,5 +1,6 @@
 package com.lbpns.android.lbpnsandroid;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,7 +29,8 @@ public class CuisineFragment extends Fragment {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-
+    private Context context;
+    private JSONArray fetchedDeals;
     static ArrayList<String> listTitle;
     static ArrayList<List<String>> listContent;
 
@@ -64,7 +66,7 @@ public class CuisineFragment extends Fragment {
 
     void getData(){
 
-        ServerRequestTask fetchTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+        ServerRequestTask fetchTask = new ServerRequestTask(getActivity(),new ServerRequestTask.TaskHandler() {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
@@ -78,6 +80,12 @@ public class CuisineFragment extends Fragment {
             }
 
             @Override
+            public void onTaskCompletion(JSONArray jsonArray) {
+
+                fetchedDeals = jsonArray;
+            }
+
+            @Override
             public boolean taskWithBoolean() {
                 return false;
             }
@@ -88,7 +96,8 @@ public class CuisineFragment extends Fragment {
             listTitle = new ArrayList<String>();
             listContent = new ArrayList<List<String>>();
 
-            JSONArray fetchedDeals = (JSONArray) fetchTask.execute("jsonarray").get();
+            fetchTask.execute("jsonarray");
+
 
             JSONArray jsonArray = new JSONArray();
             System.out.println(fetchedDeals);
@@ -132,15 +141,12 @@ public class CuisineFragment extends Fragment {
             listTitleS = new String[listTitle.size()];
             listTitleS = listTitle.toArray(listTitleS);
 
-            listContentS = new String[individualRestaurantCuisines.size()];
-            listContentS = individualRestaurantCuisines.toArray(listContentS);
+//            listContentS = new String[individualRestaurantCuisines.size()];
+//            listContentS = individualRestaurantCuisines.toArray(listContentS);
 
 
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

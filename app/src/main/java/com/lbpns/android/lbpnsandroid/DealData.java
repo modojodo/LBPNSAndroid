@@ -52,7 +52,7 @@ public class DealData extends Activity {
             }
         });
 
-        ServerRequestTask fetchTask = new ServerRequestTask(new ServerRequestTask.TaskHandler() {
+        ServerRequestTask fetchTask = new ServerRequestTask(DealData.this,new ServerRequestTask.TaskHandler() {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
@@ -63,6 +63,11 @@ public class DealData extends Activity {
                     e.printStackTrace();
                 }
                 return null;
+            }
+
+            @Override
+            public void onTaskCompletion(JSONArray jsonArray) {
+
             }
 
             @Override

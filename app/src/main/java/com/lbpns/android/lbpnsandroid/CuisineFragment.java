@@ -35,7 +35,6 @@ public class CuisineFragment extends Fragment {
     static ArrayList<List<String>> listContent;
 
 
-
     static String listTitleS[], listContentS[];
     static List<String> individualRestaurantCuisines;
 
@@ -43,12 +42,11 @@ public class CuisineFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_explistview,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_explistview, container, false);
 
         getData();
 
         expListView = (ExpandableListView) rootView.findViewById(R.id.lvExpanded);
-
 
 
         // prepare list data
@@ -63,10 +61,9 @@ public class CuisineFragment extends Fragment {
     }
 
 
+    void getData() {
 
-    void getData(){
-
-        ServerRequestTask fetchTask = new ServerRequestTask(getActivity(),new ServerRequestTask.TaskHandler() {
+        ServerRequestTask fetchTask = new ServerRequestTask(getActivity(), new ServerRequestTask.TaskHandler() {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
@@ -82,7 +79,10 @@ public class CuisineFragment extends Fragment {
             @Override
             public void onTaskCompletion(JSONArray jsonArray) {
 
-                fetchedDeals = jsonArray;
+                populateData(jsonArray);
+                // prepare list data
+                constructData();
+
             }
 
             @Override
@@ -90,13 +90,14 @@ public class CuisineFragment extends Fragment {
                 return false;
             }
         });
+        fetchTask.execute("jsonarray");
+    }
 
+    private void populateData(JSONArray fetchedDeals) {
         try {
 
             listTitle = new ArrayList<String>();
             listContent = new ArrayList<List<String>>();
-
-            fetchTask.execute("jsonarray");
 
 
             JSONArray jsonArray = new JSONArray();
@@ -107,9 +108,7 @@ public class CuisineFragment extends Fragment {
                 for (int i = 0; i < len; i++) {
 
 
-
                     JSONArray jsonArrayR = fetchedDeals.getJSONObject(i).getJSONArray("cuisines");
-
 
 
                     String rTitle = jsonArrayR.getString(0);
@@ -137,7 +136,6 @@ public class CuisineFragment extends Fragment {
             }
 
 
-
             listTitleS = new String[listTitle.size()];
             listTitleS = listTitle.toArray(listTitleS);
 
@@ -145,28 +143,22 @@ public class CuisineFragment extends Fragment {
 //            listContentS = individualRestaurantCuisines.toArray(listContentS);
 
 
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
+
+
     private void constructData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
 
-        for (int i=0;i<listTitleS.length;i++){
+        for (int i = 0; i < listTitleS.length; i++) {
             listDataHeader.add(listTitleS[i].toString());
         }
 
 
-
-
-
-
-        for(int i=0;i<listTitleS.length;i++)
-        {
+        for (int i = 0; i < listTitleS.length; i++) {
             listDataChild.put(listDataHeader.get(i), listContent.get(i));
         }
     }

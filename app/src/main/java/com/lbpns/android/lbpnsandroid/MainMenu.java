@@ -22,21 +22,15 @@ public class MainMenu extends Activity {
 
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
-        iv2 = (ImageView) findViewById(R.id.imageView2);
+
         iv3 = (ImageView) findViewById(R.id.imageView3);
         iv4 = (ImageView) findViewById(R.id.imageView4);
         iv5 = (ImageView) findViewById(R.id.imageView5);
 
 
 
-//General Deals
-        iv2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenu.this,ShowDeals.class);
-                startActivity(intent);
-            }
-        });
+
+
 
 //Set Preferences
         iv3.setOnClickListener(new View.OnClickListener() {
@@ -46,11 +40,7 @@ public class MainMenu extends Activity {
                 startActivity(intent);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 overridePendingTransition(0,0);
-//                ProgressDialog progressDialog = new ProgressDialog(MainMenu.this);
-//
-//                progressDialog.setTitle("Hello");
-//                progressDialog.setMessage("Hello Message");
-//                progressDialog.show();
+
 
             }
         });

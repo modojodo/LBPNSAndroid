@@ -9,4 +9,6 @@
     <color name="btn_bg">#c22809</color>
     <color name="lay_colorgroup">#3296df</color>
     <color name="lay_colorlist">#30e1cf</color>
+    <color name="settings_clr">#FF659C97</color>
+
 </resources>

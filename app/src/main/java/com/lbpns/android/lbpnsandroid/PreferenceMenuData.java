@@ -48,7 +48,7 @@ public class PreferenceMenuData extends Activity {
             }
 
             @Override
-            public void onTaskCompletion(JSONArray jsonArray) {
+            public void onTaskCompletion(Object o) {
 
             }
 

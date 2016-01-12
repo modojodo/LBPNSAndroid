@@ -33,10 +33,19 @@ public class CuisineFragment extends Fragment {
     private JSONArray fetchedDeals;
     static ArrayList<String> listTitle;
     static ArrayList<List<String>> listContent;
+    ServerRequestTask fetchTask;
+
 
 
     static String listTitleS[], listContentS[];
     static List<String> individualRestaurantCuisines;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+//        getData();
+//        fetchTask.execute("jsonarray");
+    }
 
     @Nullable
     @Override
@@ -44,18 +53,20 @@ public class CuisineFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_explistview, container, false);
 
+//        getData();
         getData();
+        fetchTask.execute("jsonarray");
 
         expListView = (ExpandableListView) rootView.findViewById(R.id.lvExpanded);
 
 
         // prepare list data
-        constructData();
+//        constructData();
 
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
+//        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
 
         // setting list adapter
-        expListView.setAdapter(listAdapter);
+//        expListView.setAdapter(listAdapter);
 
         return rootView;
     }
@@ -63,7 +74,7 @@ public class CuisineFragment extends Fragment {
 
     void getData() {
 
-        ServerRequestTask fetchTask = new ServerRequestTask(getActivity(), new ServerRequestTask.TaskHandler() {
+        fetchTask = new ServerRequestTask(getActivity(), new ServerRequestTask.TaskHandler() {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
@@ -77,20 +88,23 @@ public class CuisineFragment extends Fragment {
             }
 
             @Override
-            public void onTaskCompletion(JSONArray jsonArray) {
-
+            public void onTaskCompletion(Object o) {
+                JSONArray jsonArray = (JSONArray) o;
                 populateData(jsonArray);
                 // prepare list data
                 constructData();
+                listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
 
+                expListView.setAdapter(listAdapter);
             }
+
+
 
             @Override
             public boolean taskWithBoolean() {
                 return false;
             }
         });
-        fetchTask.execute("jsonarray");
     }
 
     private void populateData(JSONArray fetchedDeals) {
@@ -101,7 +115,7 @@ public class CuisineFragment extends Fragment {
 
 
             JSONArray jsonArray = new JSONArray();
-            System.out.println(fetchedDeals);
+//            System.out.println(fetchedDeals);
             if (fetchedDeals != null) {
                 int len = fetchedDeals.length();
 

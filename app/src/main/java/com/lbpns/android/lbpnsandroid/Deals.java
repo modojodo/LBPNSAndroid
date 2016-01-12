@@ -48,9 +48,11 @@ public class Deals extends Activity {
             }
 
             @Override
-            public void onTaskCompletion(JSONArray jsonArray) {
+            public void onTaskCompletion(Object o) {
 
             }
+
+
 
             @Override
             public boolean taskWithBoolean() {

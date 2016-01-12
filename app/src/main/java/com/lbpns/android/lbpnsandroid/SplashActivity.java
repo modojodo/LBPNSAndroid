@@ -17,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 
 public class SplashActivity extends AppCompatActivity {
     private Context _this = this;
+    boolean bool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,24 +38,39 @@ public class SplashActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onTaskCompletion(JSONArray jsonArray) {
+                public void onTaskCompletion(Object o) {
+                    bool = (boolean) o;
+                    boolean authenticated = bool;
+                    if (authenticated) {
+                        Intent homeActivity = new Intent(_this, MainMenu.class);
+                        startActivity(homeActivity);
+                    } else {
+                        Intent mainActivity = new Intent(_this, MainActivity.class);
+                        startActivity(mainActivity);
+                    }
+                }
 
-                }
+
             });
-            try {
-                boolean authenticated = (boolean) authenticateTask.execute("boolean").get();
-                if (authenticated) {
-                    Intent homeActivity = new Intent(_this, DealData.class);
-                    startActivity(homeActivity);
-                } else {
-                    Intent mainActivity = new Intent(_this, MainActivity.class);
-                    startActivity(mainActivity);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
+
+            authenticateTask.execute("boolean");
+
+//            try {
+//                boolean authenticated = (boolean) authenticateTask.execute("boolean").get();
+//                  boolean authenticated = bool;
+//                if (authenticated) {
+//                    Intent homeActivity = new Intent(_this, MainMenu.class);
+//                    startActivity(homeActivity);
+//                } else {
+//                    Intent mainActivity = new Intent(_this, MainActivity.class);
+//                    startActivity(mainActivity);
+//                }
+
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            }
         } else {
             Connectivity.noInternetToast(_this);
         }

@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -29,7 +30,7 @@ public class ServerRequestTask extends AsyncTask<String, Void, Object> {
 
         public abstract JSONArray taskWithJSONArray();
 
-        public abstract void  onTaskCompletion(JSONArray jsonArray);
+        public abstract void  onTaskCompletion(Object o);
 
     }
 
@@ -78,9 +79,10 @@ public class ServerRequestTask extends AsyncTask<String, Void, Object> {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        JSONArray jsonArray = (JSONArray) o;
-        this.taskHandler.onTaskCompletion(jsonArray);
         progressDialog.dismiss();
+        Log.d("T","Check");
+        this.taskHandler.onTaskCompletion(o);
+//        progressDialog.dismiss();
 
     }
 }

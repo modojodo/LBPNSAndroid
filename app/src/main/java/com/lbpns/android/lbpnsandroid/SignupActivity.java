@@ -25,6 +25,8 @@ public class SignupActivity extends Activity {
     private EditText signupPasswordEdt;
     private EditText signupConfPasswordEdt;
     private final Context _this = this;
+    private boolean bool;
+    ServerRequestTask loginTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,9 @@ public class SignupActivity extends Activity {
                     } else if (!InputValidation.isSamePassword(password, confPassword)) {
                         InputValidation.errNotSamePassword(signupPasswordEdt, signupConfPasswordEdt);
                     } else {
-                        ServerRequestTask loginTask = new ServerRequestTask(SignupActivity.this,new ServerRequestTask.TaskHandler() {
+
+
+                        loginTask = new ServerRequestTask(SignupActivity.this,new ServerRequestTask.TaskHandler() {
                             @Override
                             public boolean taskWithBoolean() {
                                 ServerCommunication server = new ServerCommunication(_this);
@@ -71,25 +75,38 @@ public class SignupActivity extends Activity {
                             }
 
                             @Override
-                            public void onTaskCompletion(JSONArray jsonArray) {
+                            public void onTaskCompletion(Object o) {
+                                bool = (boolean) o;
+                                boolean signedUp = bool;
+
+                                if (signedUp) {
+                                    System.out.println("signedUp: " + signedUp);
+                                    Intent homeActivity = new Intent(SignupActivity.this, MainMenu.class);
+                                    startActivity(homeActivity);
+                                } else {
+                                    System.out.println("signedUp: "+signedUp);
+                                    Toast.makeText(_this, "User already exists", Toast.LENGTH_SHORT).show();
+                                }
 
                             }
+
                         });
-                        try {
-                            boolean signedUp = (boolean) loginTask.execute("boolean").get();
-                            if (signedUp) {
-                                System.out.println("signedUp: " + signedUp);
-                                Intent homeActivity = new Intent(SignupActivity.this, HomeActivity.class);
-                                startActivity(homeActivity);
-                            } else {
-                                System.out.println("signedUp: "+signedUp);
-                                Toast.makeText(_this, "User already exists", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
+
+                        loginTask.execute("boolean");
+
+
+//                            boolean signedUp = (boolean) loginTask.execute("boolean").get();
+//                            boolean signedUp = bool;
+//
+//                            if (signedUp) {
+//                                System.out.println("signedUp: " + signedUp);
+//                                Intent homeActivity = new Intent(SignupActivity.this, HomeActivity.class);
+//                                startActivity(homeActivity);
+//                            } else {
+//                                System.out.println("signedUp: "+signedUp);
+//                                Toast.makeText(_this, "User already exists", Toast.LENGTH_SHORT).show();
+//                            }
+
                     }
 
                 } else {

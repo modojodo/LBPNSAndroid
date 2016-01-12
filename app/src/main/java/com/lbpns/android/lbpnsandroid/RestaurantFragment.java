@@ -39,6 +39,7 @@ public class RestaurantFragment extends Fragment {
     ExpandableListView expListView;
     CheckedTextView lblListItem;
     List<String> listDataHeader;
+    ServerRequestTask fetchTask;
 
     private TextView listHeaderTextView;
 
@@ -52,22 +53,39 @@ public class RestaurantFragment extends Fragment {
     static String listTitleS[], listContentS[];
     static List<String> individualRestaurantCuisines;
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+//        getData();
+//        fetchTask.execute("jsonarray");
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_explistview, container, false);
+
         getData();
+        fetchTask.execute("jsonarray");
+
+//        getData();
         expListView = (ExpandableListView) rootView.findViewById(R.id.lvExpanded);
 //        // prepare list data
 //        constructData();
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
+
+//        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
+
         // setting list adapter
-        expListView.setAdapter(listAdapter);
+//        expListView.setAdapter(listAdapter);
+
+
         return rootView;
     }
 
     void getData() {
-        ServerRequestTask fetchTask = new ServerRequestTask(getActivity(), new ServerRequestTask.TaskHandler() {
+        fetchTask = new ServerRequestTask(getActivity(), new ServerRequestTask.TaskHandler() {
             @Override
             public JSONArray taskWithJSONArray() {
                 try {
@@ -81,19 +99,26 @@ public class RestaurantFragment extends Fragment {
             }
 
             @Override
-            public void onTaskCompletion(JSONArray jsonArray) {
-
+            public void onTaskCompletion(Object o) {
+                JSONArray jsonArray = (JSONArray) o;
                 populateData(jsonArray);
+                Toast.makeText(getActivity(),"Testing",Toast.LENGTH_LONG).show();
                 // prepare list data
                 constructData();
+
+                Log.d("T", jsonArray.toString() + "Hello");
+                listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
+
+                expListView.setAdapter(listAdapter);
+                Log.d("T","After Task");
             }
+
 
             @Override
             public boolean taskWithBoolean() {
                 return false;
             }
         });
-        fetchTask.execute("jsonarray");
 
 
     }
@@ -103,8 +128,9 @@ public class RestaurantFragment extends Fragment {
         listContent = new ArrayList<List<String>>();
 
 
-        JSONArray jsonArray = new JSONArray();
+//        JSONArray deals;
         //  System.out.println(fetchedDeals);
+//        deals = jsonArraynew;
         if (deals != null) {
             int len = deals.length();
 
@@ -138,8 +164,8 @@ public class RestaurantFragment extends Fragment {
         listTitleS = new String[listTitle.size()];
         listTitleS = listTitle.toArray(listTitleS);
 
-//            listContentS = new String[individualRestaurantCuisines.size()];
-//            listContentS = individualRestaurantCuisines.toArray(listContentS);
+            listContentS = new String[individualRestaurantCuisines.size()];
+            listContentS = individualRestaurantCuisines.toArray(listContentS);
 
 
     }

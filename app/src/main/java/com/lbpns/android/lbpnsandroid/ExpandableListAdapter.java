@@ -116,28 +116,28 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 //                    Toast.makeText(context,childText + " Proximity Alert Added",Toast.LENGTH_SHORT).show();
                     savePreferences(headerTitle + childText, true);
 
-//                    JSONArray jsonArray = null;
-//                    JSONObject jsonObject = null;
+//                    JSONArray jsonArray = new JSONArray();
+//                    JSONObject jsonObject = new JSONObject();
 //                    for(int i=0;i<RestaurantFragment.listTitleS.length;i++) {
 //
 //                        for (int x = 0; x < RestaurantFragment.listTitleS.length; x++) {
-//                            if (headerTitle.equals(RestaurantFragment.listTitleS[x])) {
-////                                try {
-//////                                    jsonObject.put("restaurant",headerTitle.toString());
-//////                                } catch (JSONException e) {
-//////                                    e.printStackTrace();
-//////                                }
+//                            if (headerTitle.equals(RestaurantFragment.listTitleS[x].toString())) {
+//                                try {
+//                                    jsonObject.put("restaurant", headerTitle.toString());
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
 //                                Log.d("Check",headerTitle);
 //                            }
 //                        }
 //
 //                        for (int y = 0; y < RestaurantFragment.listContentS.length; y++) {
-//                            if (childText.equals(RestaurantFragment.listContentS[y])) {
-////                                try {
-////                                    jsonObject.put("cuisine",childText.toString());
-////                                } catch (JSONException e) {
-////                                    e.printStackTrace();
-////                                }
+//                            if (childText.equals(RestaurantFragment.listContentS[y].toString())) {
+//                                    try {
+//                                    jsonObject.put("cuisine",childText.toString());
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
 //                            }
 //                        }
 //                        jsonArray.put(jsonObject);
@@ -145,9 +145,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
                     //FOR CUISINE
 
-                    Log.d(TAG, headerTitle.toString().trim());
-                    Log.d(TAG, childText.toString().trim());
-//                    Log.d("ASAD",jsonArray.toString());
+//                    Log.d(TAG, headerTitle.toString().trim());
+//                    Log.d(TAG, childText.toString().trim());
+//                    Log.d("ASAD",jsonArray.toString() + "Asad");
 
                     if (headerTitle.equals("Burger") && txtListChild.equals("KFC")) {
                         double lat = 24.909898, lon = 67.085690;
@@ -265,6 +265,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public int getGroupCount() {
         return this.listHeader.size();
     }
+
+
 
     @Override
     public long getGroupId(int groupPosition) {

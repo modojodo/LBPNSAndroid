@@ -21,6 +21,8 @@ public class LoginActivity extends Activity {
     private Button loginBtn;
     private EditText loginEmailEdt;
     private EditText loginPasswordEdt;
+    boolean bool;
+    ServerRequestTask loginTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,9 @@ public class LoginActivity extends Activity {
                     } else if (!InputValidation.isValidPassword(password)) {
                         InputValidation.errInvalidPassword(loginPasswordEdt);
                     } else {
-                        ServerRequestTask loginTask = new ServerRequestTask(LoginActivity.this,new ServerRequestTask.TaskHandler() {
+
+
+                        loginTask = new ServerRequestTask(LoginActivity.this,new ServerRequestTask.TaskHandler() {
                             @Override
                             public boolean taskWithBoolean() {
                                 ServerCommunication server = new ServerCommunication(_this);
@@ -63,23 +67,32 @@ public class LoginActivity extends Activity {
                             }
 
                             @Override
-                            public void onTaskCompletion(JSONArray jsonArray) {
+                            public void onTaskCompletion(Object o) {
+                                bool = (boolean) o;
+                                boolean loggedIn = bool;
+                                if (loggedIn) {
+                                    Intent homeActivity = new Intent(getApplicationContext(), MainMenu.class);
+                                    startActivity(homeActivity);
+                                } else {
+                                    Toast.makeText(_this, "Invalid Login!", Toast.LENGTH_SHORT).show();
+                                }
 
                             }
+
+
                         });
-                        try {
-                            boolean loggedIn = (boolean) loginTask.execute("boolean").get();
-                            if (loggedIn) {
-                                Intent homeActivity = new Intent(v.getContext(), DealData.class);
-                                startActivity(homeActivity);
-                            } else {
-                                Toast.makeText(_this, "Invalid Login!", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
+
+                        loginTask.execute("boolean");
+
+//                            boolean loggedIn = (boolean) loginTask.execute("boolean").get();
+//                              boolean loggedIn = bool;
+//                            if (loggedIn) {
+//                                Intent homeActivity = new Intent(v.getContext(), MainMenu.class);
+//                                startActivity(homeActivity);
+//                            } else {
+//                                Toast.makeText(_this, "Invalid Login!", Toast.LENGTH_SHORT).show();
+//                            }
+
                     }
 
 

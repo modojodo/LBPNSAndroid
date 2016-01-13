@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +36,9 @@ public class CuisineFragment extends Fragment {
     static ArrayList<String> listTitle;
     static ArrayList<List<String>> listContent;
     ServerRequestTask fetchTask;
+    TextView headertv;
+    CheckedTextView chktv;
+
 
 
 
@@ -43,8 +48,7 @@ public class CuisineFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-//        getData();
-//        fetchTask.execute("jsonarray");
+
     }
 
     @Nullable
@@ -58,6 +62,7 @@ public class CuisineFragment extends Fragment {
         fetchTask.execute("jsonarray");
 
         expListView = (ExpandableListView) rootView.findViewById(R.id.lvExpanded);
+
 
 
         // prepare list data
@@ -96,6 +101,8 @@ public class CuisineFragment extends Fragment {
                 listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
 
                 expListView.setAdapter(listAdapter);
+
+
             }
 
 
@@ -153,8 +160,8 @@ public class CuisineFragment extends Fragment {
             listTitleS = new String[listTitle.size()];
             listTitleS = listTitle.toArray(listTitleS);
 
-//            listContentS = new String[individualRestaurantCuisines.size()];
-//            listContentS = individualRestaurantCuisines.toArray(listContentS);
+            listContentS = new String[individualRestaurantCuisines.size()];
+            listContentS = individualRestaurantCuisines.toArray(listContentS);
 
 
         } catch (JSONException e) {

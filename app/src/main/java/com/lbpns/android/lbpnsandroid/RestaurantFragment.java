@@ -57,8 +57,6 @@ public class RestaurantFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-//        getData();
-//        fetchTask.execute("jsonarray");
 
     }
 

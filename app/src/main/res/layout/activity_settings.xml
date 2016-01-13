@@ -3,7 +3,8 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/settings_clr">
+              android:background="@color/settings_clr"
+              android:weightSum="1">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -61,12 +62,13 @@
     </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="136dp"
         android:layout_height="wrap_content"
         android:id="@+id/btn_save"
         android:text="Save"
         android:layout_marginLeft="18dp"
         android:layout_marginBottom="60dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="240dp"/>
+        android:layout_marginTop="240dp"
+        android:layout_weight="0.10"/>
 </LinearLayout>

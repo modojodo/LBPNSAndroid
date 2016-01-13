@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -13,19 +14,16 @@ import android.widget.ProgressBar;
  */
 public class MainMenu extends Activity {
 
-    private ImageView iv2,iv3,iv4,iv5;
-    private ProgressBar progressBar;
+    private Button btnp,btnm,btns;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainmenu);
 
-        progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
-
-        iv3 = (ImageView) findViewById(R.id.imageView3);
-        iv4 = (ImageView) findViewById(R.id.imageView4);
-        iv5 = (ImageView) findViewById(R.id.imageView5);
+        btnp = (Button) findViewById(R.id.btn_preferences);
+        btnm = (Button) findViewById(R.id.btn_maps);
+        btns = (Button) findViewById(R.id.btn_settings);
 
 
 
@@ -33,7 +31,7 @@ public class MainMenu extends Activity {
 
 
 //Set Preferences
-        iv3.setOnClickListener(new View.OnClickListener() {
+        btnp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainMenu.this,SelectionMenu.class);
@@ -45,22 +43,28 @@ public class MainMenu extends Activity {
             }
         });
 
-//Settings
-        iv4.setOnClickListener(new View.OnClickListener() {
+        //Maps
+
+        btnm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenu.this,SettingsActivity.class);
+                Intent intent = new Intent(MainMenu.this, MapActivity.class);
+                startActivity(intent);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+//Settings
+
+        btns.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenu.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });
 
-//Maps
-        iv5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenu.this,MapActivity.class);
-                startActivity(intent);
-            }
-        });
+
     }
 }

@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,6 +42,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private static final String TAG = "ExpandableListAdapter";
     private Context context;
     private List<String> listHeader;
+    private List<String> listHeaderOriginal;
+
+    static String headerC;
+    static String childC;
+    static boolean boolC;
+
     // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> listChild;
@@ -51,6 +58,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         this.context = context;
         this.listHeader = listDataHeader;
         this.listChild = listChildData;
+        this.listHeaderOriginal = new ArrayList<String>();
     }
 
     private String titleSelected[];
@@ -90,11 +98,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         loadSavedPreferences(headerTitle + childText);
         if (checkBoxValue) {
             txtListChild.setChecked(true);
+            headerC = headerTitle.toString();
+            childC = childText.toString();
+            boolC = checkBoxValue;
 
         } else {
             txtListChild.setChecked(false);
 
         }
+
 
 
         txtListChild.setOnClickListener(new View.OnClickListener() {
@@ -113,109 +125,179 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     System.out.println("Inside not checked");
 
                     txtListChild.setChecked(true);
-//                    Toast.makeText(context,childText + " Proximity Alert Added",Toast.LENGTH_SHORT).show();
+
                     savePreferences(headerTitle + childText, true);
 
-//                    JSONArray jsonArray = new JSONArray();
-//                    JSONObject jsonObject = new JSONObject();
+                    JSONArray jsonArrayRestaurant = new JSONArray();
+                    JSONObject jsonObjectRestaurant = new JSONObject();
 //                    for(int i=0;i<RestaurantFragment.listTitleS.length;i++) {
+
+                    for (int x = 0; x < RestaurantFragment.listTitleS.length; x++) {
+                        if (headerTitle.equals(RestaurantFragment.listTitleS[x].toString())) {
+                            try {
+                                jsonObjectRestaurant.put("restaurant", headerTitle.toString());
+                                for (int y = 0; y < RestaurantFragment.listContent.get(x).size(); y++) {
+                                    if (childText.equals(RestaurantFragment.listContent.get(x).get(y).toString())) {
+
+                                        jsonObjectRestaurant.put("cuisine", childText.toString());
+                                    }
+
+                                }
+                                Log.d("Check", headerTitle);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    }
 //
-//                        for (int x = 0; x < RestaurantFragment.listTitleS.length; x++) {
-//                            if (headerTitle.equals(RestaurantFragment.listTitleS[x].toString())) {
-//                                try {
-//                                    jsonObject.put("restaurant", headerTitle.toString());
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                Log.d("Check",headerTitle);
-//                            }
-//                        }
-//
+                    jsonArrayRestaurant.put(jsonObjectRestaurant);
+
+                    Log.d("ASAD", jsonArrayRestaurant.toString() + "AsadRestaurant");
+
+                    JSONArray jsonArrayCuisine = new JSONArray();
+                    JSONObject jsonObjectCuisine = new JSONObject();
+
+                    for (int x = 0; x < CuisineFragment.listTitleS.length; x++) {
+                        if (headerTitle.equals(CuisineFragment.listTitleS[x].toString())) {
+                            try {
+                                jsonObjectCuisine.put("restaurant", headerTitle.toString());
+                                for (int y = 0; y < CuisineFragment.listContent.get(x).size(); y++) {
+                                    if (childText.equals(CuisineFragment.listContent.get(x).get(y).toString())) {
+
+                                        jsonObjectCuisine.put("cuisine", childText.toString());
+                                    }
+
+                                }
+                                Log.d("Check", headerTitle);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    }
+
+                    jsonArrayCuisine.put(jsonObjectCuisine);
+
+                    Log.d("ASAD", jsonArrayCuisine.toString() + "AsadCuisine");
 //                        for (int y = 0; y < RestaurantFragment.listContentS.length; y++) {
 //                            if (childText.equals(RestaurantFragment.listContentS[y].toString())) {
 //                                    try {
-//                                    jsonObject.put("cuisine",childText.toString());
+//                                    jsonObjectRestaurant.put("cuisine",childText.toString());
 //                                } catch (JSONException e) {
 //                                    e.printStackTrace();
 //                                }
 //                            }
 //                        }
-//                        jsonArray.put(jsonObject);
 //                    }
 
-                    //FOR CUISINE
+                        //FOR CUISINE
 
 //                    Log.d(TAG, headerTitle.toString().trim());
 //                    Log.d(TAG, childText.toString().trim());
-//                    Log.d("ASAD",jsonArray.toString() + "Asad");
 
-                    if (headerTitle.equals("Burger") && txtListChild.equals("KFC")) {
-                        double lat = 24.909898, lon = 67.085690;
-                        addProximityAlert(childPosition + request, lat, lon);
-                        // userPref.setSharedPref();
+                        //For CUISINE
 
-                    } else if (headerTitle.equals("Burger") && txtListChild.equals("McDonalds")) {
-                        double lat = 24.798466, lon = 67.034419;
-                        addProximityAlert(childPosition + request, lat, lon);
-                    } else if (headerTitle.equals("Pizza") && childText.equals("Pizza Point")) {
-                        double lat = 24.928619, lon = 67.112992;
-                        addProximityAlert(childPosition + request, lat, lon);
-                    } else if (headerTitle.equals("Sandwich") && childText.equals("McDonalds")) {
-                        double lat = 24.798466, lon = 67.034419;
-                        addProximityAlert(childPosition + request, lat, lon);
-                    } else if (headerTitle.equals("Sandwich") && childText.equals("KFC")) {
-                        double lat = 24.883264, lon = 67.161269;
-                        addProximityAlert(childPosition + request, lat, lon);
-                    } else if (listHeader.get(groupPosition).equals("KFC") && listChild.get(listHeader.get(groupPosition)).get(childPosition).equals("123a")) {
-                        System.out.println("Inside KFC");
-                        double lat = 24.909898, lon = 67.085690;
-                        addProximityAlert(childPosition + request, lat, lon);
-                    } else if (headerTitle.equals("KFC") && childText.equals("Juice")) {
-                        double lat = 24.909898, lon = 67.085690;
-                        addProximityAlert(childPosition + request, lat, lon);
+//                        JSONArray jsonArrayCuisine = new JSONArray();
+//                        JSONObject jsonObjectCuisine = new JSONObject();
 
-                    } else if (listHeader.toString().equals("KFC") && childText.equals("Juice")) {
-                        double lat = 24.909898, lon = 67.085690;
-                        addProximityAlert(childPosition + request, lat, lon);
+//                        for (int p = 0; p < CuisineFragment.listTitleS.length; p++) {
+//                            if (headerTitle.equals(CuisineFragment.listTitleS[p].toString())) {
+//                                try {
+//                                    jsonObjectCuisine.put("cuisine", headerTitle.toString());
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                Log.d("Check", headerTitle);
+//                            }
+//                        }
+//
+//                        for (int y = 0; y < CuisineFragment.listContentS.length; y++) {
+//                            if (childText.equals(CuisineFragment.listContentS[y].toString())) {
+//
+//                                try {
+//                                    jsonObjectCuisine.put("restaurant", childText.toString());
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//
+//                        }
 
-                    } else if (headerTitle.equals("KFC") && childText.equals("Wings")) {
-                        double lat = 24.909898, lon = 67.085690;
-                        System.out.println("Inside KFC");
-                        addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle.equals("Pizza Point") && childText.equals("Chicken Tikka")) {
-                        double lat = 24.928619, lon = 67.112992;
-                        addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle.equals("Pizza Point") && childText.equals("Fajita")) {
-                        double lat = 24.928619, lon = 67.112992;
-                        addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle.equals("Pizza Point") && childText.equals("Afghani Tikka")) {
-                        double lat = 24.928619, lon = 67.112992;
-                        addProximityAlert(childPosition + request, lat, lon);
+                        if (headerTitle.equals("Burger") && txtListChild.equals("KFC")) {
+                            double lat = 24.909898, lon = 67.085690;
+                            addProximityAlert(childPosition + request, lat, lon);
+                            // userPref.setSharedPref();
 
-                    } else if (headerTitle.equals("Pizza Point") && childText.equals("Garlic Bread")) {
-                        double lat = 24.928619, lon = 67.112992;
-                        addProximityAlert(childPosition + request, lat, lon);
+                        } else if (headerTitle.equals("Burger") && txtListChild.equals("McDonalds")) {
+                            double lat = 24.798466, lon = 67.034419;
+                            addProximityAlert(childPosition + request, lat, lon);
+                        } else if (headerTitle.equals("Pizza") && childText.equals("Pizza Point")) {
+                            double lat = 24.928619, lon = 67.112992;
+                            addProximityAlert(childPosition + request, lat, lon);
+                        } else if (headerTitle.equals("Sandwich") && childText.equals("McDonalds")) {
+                            double lat = 24.798466, lon = 67.034419;
+                            addProximityAlert(childPosition + request, lat, lon);
+                        } else if (headerTitle.equals("Sandwich") && childText.equals("KFC")) {
+                            double lat = 24.883264, lon = 67.161269;
+                            addProximityAlert(childPosition + request, lat, lon);
+                        } else if (listHeader.get(groupPosition).equals("KFC") && listChild.get(listHeader.get(groupPosition)).get(childPosition).equals("123a")) {
+                            System.out.println("Inside KFC");
+                            double lat = 24.909898, lon = 67.085690;
+                            addProximityAlert(childPosition + request, lat, lon);
+                        } else if (headerTitle.equals("KFC") && childText.equals("Juice")) {
+                            double lat = 24.909898, lon = 67.085690;
+                            addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle.equals("McDonalds") && childText.equals("Chicken Burger")) {
-                        double lat = 24.798466, lon = 67.034419;
-                        addProximityAlert(childPosition + request, lat, lon);
+                        } else if (listHeader.toString().equals("KFC") && childText.equals("Juice")) {
+                            double lat = 24.909898, lon = 67.085690;
+                            addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle.equals("McDonalds") && childText.equals("Jumbo Zinger")) {
-                        double lat = 24.909898, lon = 67.085690;
-                        addProximityAlert(childPosition + request, lat, lon);
+                        } else if (headerTitle.equals("KFC") && childText.equals("Wings")) {
+                            double lat = 24.909898, lon = 67.085690;
+                            System.out.println("Inside KFC");
+                            addProximityAlert(childPosition + request, lat, lon);
 
-                    } else if (headerTitle.equals("McDonalds") && childText.equals("Club Sandwich")) {
-                        double lat = 24.909898, lon = 67.085690;
-                        addProximityAlert(childPosition + request, lat, lon);
+                        } else if (headerTitle.equals("Pizza Point") && childText.equals("Chicken Tikka")) {
+                            double lat = 24.928619, lon = 67.112992;
+                            addProximityAlert(childPosition + request, lat, lon);
 
+                        } else if (headerTitle.equals("Pizza Point") && childText.equals("Fajita")) {
+                            double lat = 24.928619, lon = 67.112992;
+                            addProximityAlert(childPosition + request, lat, lon);
+
+                        } else if (headerTitle.equals("Pizza Point") && childText.equals("Afghani Tikka")) {
+                            double lat = 24.928619, lon = 67.112992;
+                            addProximityAlert(childPosition + request, lat, lon);
+
+                        } else if (headerTitle.equals("Pizza Point") && childText.equals("Garlic Bread")) {
+                            double lat = 24.928619, lon = 67.112992;
+                            addProximityAlert(childPosition + request, lat, lon);
+
+                        } else if (headerTitle.equals("McDonalds") && childText.equals("Chicken Burger")) {
+                            double lat = 24.798466, lon = 67.034419;
+                            addProximityAlert(childPosition + request, lat, lon);
+
+                        } else if (headerTitle.equals("McDonalds") && childText.equals("Jumbo Zinger")) {
+                            double lat = 24.909898, lon = 67.085690;
+                            addProximityAlert(childPosition + request, lat, lon);
+
+                        } else if (headerTitle.equals("McDonalds") && childText.equals("Club Sandwich")) {
+                            double lat = 24.909898, lon = 67.085690;
+                            addProximityAlert(childPosition + request, lat, lon);
+
+                        }
                     }
-                }
+
 
 
             }
+
         });
 
 

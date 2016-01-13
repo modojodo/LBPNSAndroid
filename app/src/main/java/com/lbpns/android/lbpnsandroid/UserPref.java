@@ -15,7 +15,7 @@ public class UserPref extends Activity {
 
    private SharedPreferences sharedPref ;
    private static String PREF = "MyPref";
-   private String Title,Content,Quantity,Branch;
+   private String Title,Content,Quantity,Branch,Latitude,Longitude;
    private int Price;
    private double lat,lon;
 
@@ -26,13 +26,17 @@ public class UserPref extends Activity {
        sharedPref = getSharedPreferences(PREF, Context.MODE_PRIVATE);
        SharedPreferences.Editor editor = sharedPref.edit();
 
-        editor.putString("dealTitle",title);
-        editor.putString("dealContent",content);
-        editor.putInt("price",price);
+        String latitude,longitude;
+        latitude = Double.toString(lat);
+        longitude = Double.toString(lon);
+
+        editor.putString("dealTitle", title);
+        editor.putString("dealContent", content);
+        editor.putInt("price", price);
         editor.putString("quantity",quantity);
         editor.putString("branch",branch);
-
-
+        editor.putString("latitude",latitude);
+        editor.putString("longitude",longitude);
         editor.commit();
     }
 
@@ -46,7 +50,8 @@ public class UserPref extends Activity {
         Price = sharedPref.getInt("price",0);
         Quantity = sharedPref.getString("quantity",null);
         Branch = sharedPref.getString("branch",null);
-
+        Latitude = sharedPref.getString("latitude",null);
+        Longitude = sharedPref.getString("longitude",null);
 
     }
 

@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,6 +44,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> listHeader;
     private List<String> listHeaderOriginal;
+
+
+    JSONArray jsonArrayRestaurant = new JSONArray();
+    JSONObject jsonObjectRestaurant = new JSONObject();
+
+    JSONArray jsonArrayCuisine = new JSONArray();
+    JSONObject jsonObjectCuisine = new JSONObject();
+
+    JSONArray userPref = new JSONArray();
+
 
     static String headerC;
     static String childC;
@@ -108,7 +119,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
 
-
         txtListChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,7 +130,43 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     removeProximityAlert(childPosition + request);
 
                 } else {
-
+//                    if (userPref.length() > 0) {
+//                        for (int i = 0; i < userPref.length(); i++) {
+//                            try {
+////                                Checking if the current key exists in each object in JSONArray
+//                                JSONObject obj = (JSONObject) userPref.get(i);
+//                                if (obj.has(headerTitle)) {
+//                                    Log.d(TAG, "Inside If if");
+//                                    JSONArray demo = obj.getJSONArray(headerTitle);
+//                                    for(int j = 0 ; j<demo.length();j++){
+//                                        Log.d(TAG, demo.getString(j));
+//                                    }
+//                                    demo.put(childText);
+//                                   ((JSONObject) userPref.get(i)).put(headerTitle, demo);
+//
+//                                    System.out.println("Umer "+obj.getJSONArray(headerTitle).toString());
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        }
+//
+//                    } else {
+//                        try {
+//                            Log.d(TAG, "Inside else");
+//                            JSONObject jsonObject = new JSONObject();
+//                            ArrayList<String> arrayList = new ArrayList<String>();
+//                            arrayList.add(childText);
+//                            String value[] = new String[arrayList.size()];
+//                            value = arrayList.toArray(value);
+//                            jsonObject.put(headerTitle, value);
+//                            Log.d(TAG, Arrays.toString(value));
+//                            userPref.put(jsonObject);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
 
                     System.out.println("Inside not checked");
 
@@ -128,60 +174,67 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
                     savePreferences(headerTitle + childText, true);
 
-                    JSONArray jsonArrayRestaurant = new JSONArray();
-                    JSONObject jsonObjectRestaurant = new JSONObject();
-//                    for(int i=0;i<RestaurantFragment.listTitleS.length;i++) {
+//                    JSONArray jsonArrayRestaurant = new JSONArray();
+//                    JSONObject jsonObjectRestaurant = new JSONObject();
+                    for (int i = 0; i < RestaurantFragment.listTitleS.length; i++) {
 
-                    for (int x = 0; x < RestaurantFragment.listTitleS.length; x++) {
-                        if (headerTitle.equals(RestaurantFragment.listTitleS[x].toString())) {
-                            try {
-                                jsonObjectRestaurant.put("restaurant", headerTitle.toString());
-                                for (int y = 0; y < RestaurantFragment.listContent.get(x).size(); y++) {
-                                    if (childText.equals(RestaurantFragment.listContent.get(x).get(y).toString())) {
+                        for (int x = 0; x < RestaurantFragment.listTitleS.length; x++) {
+                            if (headerTitle.equals(RestaurantFragment.listTitleS[x].toString())) {
+                                try {
+                                    jsonObjectRestaurant.put("restaurant", headerTitle.toString());
+                                    for (int y = 0; y < RestaurantFragment.listContent.get(x).size(); y++) {
+                                        if (childText.equals(RestaurantFragment.listContent.get(x).get(y).toString())) {
 
-                                        jsonObjectRestaurant.put("cuisine", childText.toString());
+                                            jsonObjectRestaurant.put("cuisine", childText.toString());
+
+                                        }
+
                                     }
-
+                                    Log.d("Check", headerTitle);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                                Log.d("Check", headerTitle);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+
                             }
+
+                            jsonArrayRestaurant.put(jsonObjectRestaurant);
+
 
                         }
 
-                    }
-//
-                    jsonArrayRestaurant.put(jsonObjectRestaurant);
+//                    jsonArrayRestaurant.put(jsonObjectRestaurant);
 
-                    Log.d("ASAD", jsonArrayRestaurant.toString() + "AsadRestaurant");
+                        Log.d("ASAD", jsonArrayRestaurant.toString() + "AsadRestaurant");
 
-                    JSONArray jsonArrayCuisine = new JSONArray();
-                    JSONObject jsonObjectCuisine = new JSONObject();
+//                    JSONArray jsonArrayCuisine = new JSONArray();
+//                    JSONObject jsonObjectCuisine = new JSONObject();
 
-                    for (int x = 0; x < CuisineFragment.listTitleS.length; x++) {
-                        if (headerTitle.equals(CuisineFragment.listTitleS[x].toString())) {
-                            try {
-                                jsonObjectCuisine.put("restaurant", headerTitle.toString());
-                                for (int y = 0; y < CuisineFragment.listContent.get(x).size(); y++) {
-                                    if (childText.equals(CuisineFragment.listContent.get(x).get(y).toString())) {
+                        for (int x = 0; x < CuisineFragment.listTitleS.length; x++) {
+                            if (headerTitle.equals(CuisineFragment.listTitleS[x].toString())) {
+                                try {
+                                    jsonObjectCuisine.put("restaurant", headerTitle.toString());
+                                    for (int y = 0; y < CuisineFragment.listContent.get(x).size(); y++) {
+                                        if (childText.equals(CuisineFragment.listContent.get(x).get(y).toString())) {
 
-                                        jsonObjectCuisine.put("cuisine", childText.toString());
+                                            jsonObjectCuisine.put("cuisine", childText.toString());
+                                        }
+
                                     }
-
+                                    Log.d("Check", headerTitle);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                                Log.d("Check", headerTitle);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+
                             }
+
+                            jsonArrayCuisine.put(jsonObjectCuisine);
+
 
                         }
 
-                    }
+//                         jsonArrayCuisine.put(jsonObjectCuisine);
 
-                    jsonArrayCuisine.put(jsonObjectCuisine);
-
-                    Log.d("ASAD", jsonArrayCuisine.toString() + "AsadCuisine");
+                        Log.d("ASAD", jsonArrayCuisine.toString() + "AsadCuisine");
 //                        for (int y = 0; y < RestaurantFragment.listContentS.length; y++) {
 //                            if (childText.equals(RestaurantFragment.listContentS[y].toString())) {
 //                                    try {
@@ -225,8 +278,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 //                            }
 //
 //                        }
-
-
 
 
                         if (headerTitle.equals("Burger") && txtListChild.equals("KFC")) {
@@ -295,10 +346,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     }
 
 
-
+                }
             }
 
         });
+
 
 
         return convertView;
@@ -349,7 +401,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
 
-
     @Override
     public long getGroupId(int groupPosition) {
         return groupPosition;
@@ -393,7 +444,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         lblListHeader.setText(headerTitle);
         return convertView;
     }
-
 
 
     @Override

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,8 +41,6 @@ public class CuisineFragment extends Fragment {
     CheckedTextView chktv;
 
 
-
-
     static String listTitleS[], listContentS[];
     static List<String> individualRestaurantCuisines;
 
@@ -64,17 +63,28 @@ public class CuisineFragment extends Fragment {
         expListView = (ExpandableListView) rootView.findViewById(R.id.lvExpanded);
 
 
+        chktv = (CheckedTextView) rootView.findViewById(R.id.lblListItem);
+        headertv = (TextView) rootView.findViewById(R.id.lblListHeader);
 
-        // prepare list data
+//        chktv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getContext(), "Hello!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+
+    // prepare list data
 //        constructData();
 
 //        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
 
-        // setting list adapter
+    // setting list adapter
 //        expListView.setAdapter(listAdapter);
 
-        return rootView;
-    }
+    return rootView;
+}
+
 
 
     void getData() {
@@ -101,6 +111,7 @@ public class CuisineFragment extends Fragment {
                 listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
 
                 expListView.setAdapter(listAdapter);
+
 
 
             }

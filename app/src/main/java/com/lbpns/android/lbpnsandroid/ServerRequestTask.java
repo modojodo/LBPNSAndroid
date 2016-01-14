@@ -80,7 +80,6 @@ public class ServerRequestTask extends AsyncTask<String, Void, Object> {
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
         progressDialog.dismiss();
-        Log.d("T","Check");
         this.taskHandler.onTaskCompletion(o);
 //        progressDialog.dismiss();
 

@@ -132,6 +132,7 @@ public class RestaurantFragment extends Fragment {
         if (deals != null) {
             int len = deals.length();
 
+
             for (int i = 0; i < len; i++) {
                 JSONArray jsonArrayR = null;
                 try {

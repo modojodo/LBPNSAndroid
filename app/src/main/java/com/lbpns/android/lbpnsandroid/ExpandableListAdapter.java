@@ -81,6 +81,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .get(childPosititon);
     }
 
+
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
@@ -107,11 +108,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
 
         loadSavedPreferences(headerTitle + childText);
+        loadSavedPreferences(childText + headerTitle);
+
+
+
+
         if (checkBoxValue) {
             txtListChild.setChecked(true);
-            headerC = headerTitle.toString();
-            childC = childText.toString();
-            boolC = checkBoxValue;
+
 
         } else {
             txtListChild.setChecked(false);
@@ -126,10 +130,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     txtListChild.setChecked(false);
                     savePreferences(headerTitle + childText, false);
 
+                    savePreferences(childText + headerTitle, false);
+
+
                     // Toast.makeText(context,childText + " unselected!",Toast.LENGTH_SHORT).show();
                     removeProximityAlert(childPosition + request);
 
                 } else {
+
+
 //                    if (userPref.length() > 0) {
 //                        for (int i = 0; i < userPref.length(); i++) {
 //                            try {
@@ -173,6 +182,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     txtListChild.setChecked(true);
 
                     savePreferences(headerTitle + childText, true);
+
+                    savePreferences(childText + headerTitle, true);
 
 //                    JSONArray jsonArrayRestaurant = new JSONArray();
 //                    JSONObject jsonObjectRestaurant = new JSONObject();
@@ -356,6 +367,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+
     private void removeProximityAlert(int requestCode) {
         LocationManager lManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         Intent intent = new Intent("com.lbpns.android.lbpnsandroid");
@@ -442,6 +454,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+
+
         return convertView;
     }
 

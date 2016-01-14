@@ -38,7 +38,6 @@ public class CuisineFragment extends Fragment {
     static ArrayList<List<String>> listContent;
     ServerRequestTask fetchTask;
     TextView headertv;
-    CheckedTextView chktv;
 
 
     static String listTitleS[], listContentS[];
@@ -63,8 +62,8 @@ public class CuisineFragment extends Fragment {
         expListView = (ExpandableListView) rootView.findViewById(R.id.lvExpanded);
 
 
-        chktv = (CheckedTextView) rootView.findViewById(R.id.lblListItem);
-        headertv = (TextView) rootView.findViewById(R.id.lblListHeader);
+
+
 
 //        chktv.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -82,10 +81,17 @@ public class CuisineFragment extends Fragment {
     // setting list adapter
 //        expListView.setAdapter(listAdapter);
 
+
     return rootView;
 }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        int count = listAdapter.getGroupCount();
+        for(int i=0;i<count;i++)
+            expListView.collapseGroup(i);
+    }
 
     void getData() {
 
@@ -111,6 +117,7 @@ public class CuisineFragment extends Fragment {
                 listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
 
                 expListView.setAdapter(listAdapter);
+
 
 
 

@@ -21,6 +21,8 @@ public class SelectionMenu extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    static String headerSelected[];
+    static String childSelected[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

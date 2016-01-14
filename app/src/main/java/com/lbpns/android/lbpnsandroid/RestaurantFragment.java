@@ -1,9 +1,9 @@
 package com.lbpns.android.lbpnsandroid;
 
+import android.app.Fragment;
 import android.app.SearchManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -88,7 +88,7 @@ public class RestaurantFragment extends Fragment {
             public JSONArray taskWithJSONArray() {
                 try {
                     URL url = new URL(ServerCommunication.GET_PREFERENCES_BY_RESTAURANT);
-                    ServerCommunication server = new ServerCommunication(getContext());
+                    ServerCommunication server = new ServerCommunication(getActivity());
                     return server.getRequest(url);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();

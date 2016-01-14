@@ -21,6 +21,8 @@ public class MapActivity extends FragmentActivity {
 
 GoogleMap googleMap;
 
+    LatLng latLng = new LatLng(24.955635,67.154491);
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
@@ -29,6 +31,7 @@ GoogleMap googleMap;
 
         googleMap = mapFragment.getMap();
 
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {

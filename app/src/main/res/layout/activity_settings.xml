@@ -61,6 +61,13 @@
 
     </LinearLayout>
 
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_switch"
+        android:text="Play With the switch"
+        android:layout_gravity="right"/>
+
     <Button
         android:layout_width="136dp"
         android:layout_height="wrap_content"
@@ -71,4 +78,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="240dp"
         android:layout_weight="0.10"/>
+
+
 </LinearLayout>

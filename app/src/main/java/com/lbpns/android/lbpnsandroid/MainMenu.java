@@ -34,7 +34,7 @@ public class MainMenu extends Activity {
         btnp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenu.this,SelectionMenu.class);
+                Intent intent = new Intent(MainMenu.this,PreferenceActivity.class);
                 startActivity(intent);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 overridePendingTransition(0,0);

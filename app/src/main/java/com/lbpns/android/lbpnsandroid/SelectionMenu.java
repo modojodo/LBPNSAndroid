@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 /**
@@ -23,20 +24,29 @@ public class SelectionMenu extends AppCompatActivity {
     private ViewPager viewPager;
     static String headerSelected[];
     static String childSelected[];
+//    private Button btn_pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_selection);
 
+//       final Button btn_pref = (Button) findViewById(R.id.btn_pref);
+//        btn_pref.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(SelectionMenu.this, "Checking!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+//        setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -44,14 +54,14 @@ public class SelectionMenu extends AppCompatActivity {
 
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new RestaurantFragment(), "Restaurant");
-        adapter.addFragment(new CuisineFragment(), "Cuisine");
-
-        viewPager.setAdapter(adapter);
-    }
-
+//    private void setupViewPager(ViewPager viewPager) {
+//        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+//        adapter.addFragment(new RestaurantFragment(), "Restaurant");
+//        adapter.addFragment(new CuisineFragment(), "Cuisine");
+//
+//        viewPager.setAdapter(adapter);
+//    }
+//
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -61,13 +71,19 @@ public class SelectionMenu extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.update) {
+            Toast.makeText(getApplicationContext(),"Button clicked!!",Toast.LENGTH_LONG).show();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_selection,menu);
+        return true;
+    }
 
     @Override
     public void onBackPressed() {

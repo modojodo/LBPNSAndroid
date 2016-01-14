@@ -1,9 +1,9 @@
 package com.lbpns.android.lbpnsandroid;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,13 +85,7 @@ public class CuisineFragment extends Fragment {
     return rootView;
 }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        int count = listAdapter.getGroupCount();
-        for(int i=0;i<count;i++)
-            expListView.collapseGroup(i);
-    }
+
 
     void getData() {
 
@@ -100,7 +94,7 @@ public class CuisineFragment extends Fragment {
             public JSONArray taskWithJSONArray() {
                 try {
                     URL url = new URL(ServerCommunication.GET_PREFERENCES_BY_CUISINE);
-                    ServerCommunication server = new ServerCommunication(getContext());
+                    ServerCommunication server = new ServerCommunication(getActivity());
                     return server.getRequest(url);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();

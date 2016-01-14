@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#EB2335"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EB2335"
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -18,30 +18,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        android:orientation="vertical"
-        android:weightSum="1">
+        android:orientation="vertical">
 
         <Button
+            android:id="@+id/loginScreenBtn"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:background="@drawable/my_button"
+            android:background="#02C9C9"
             android:text="@string/login_btn"
-            android:textSize="80px"
-            android:textStyle="bold"
             android:textColor="#ffffff"
-            android:id="@+id/loginScreenBtn"
-            android:layout_weight="1.10"/>
+            android:textStyle="bold" />
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@drawable/my_button"
-            android:text="@string/signup_btn"
-            android:textSize="80px"
-            android:textColor="#ffffff"
-            android:textStyle="bold"
             android:id="@+id/signupScreenBtn"
-            android:layout_weight="1.10"/>
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="#BCCF3D"
+            android:text="@string/signup_btn"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

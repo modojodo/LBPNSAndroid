@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -23,6 +26,11 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        ImageView rotate_image =(ImageView) findViewById(R.id.image1);
+        RotateAnimation rotate = new RotateAnimation(30, 360, Animation.RELATIVE_TO_PARENT, 0.5f,  Animation.RELATIVE_TO_PARENT, 0.5f);
+        rotate.setDuration(2500);
+        rotate_image.startAnimation(rotate);
         boolean connectecd = Connectivity.isConnectedToInternet(_this);
         if (connectecd) {
             ServerRequestTask authenticateTask = new ServerRequestTask(SplashActivity.this,new ServerRequestTask.TaskHandler() {

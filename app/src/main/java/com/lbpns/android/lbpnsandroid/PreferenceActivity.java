@@ -25,6 +25,7 @@ public class PreferenceActivity extends Activity {
     RestaurantFragment restaurantFragment;
     CuisineFragment cuisineFragment;
     int count =0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +36,8 @@ public class PreferenceActivity extends Activity {
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         List<String> list = new ArrayList<>();
-        list.add("Restaurant");
-        list.add("Cuisine");
+        list.add("By Restaurant");
+        list.add("By Cuisine");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,list);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

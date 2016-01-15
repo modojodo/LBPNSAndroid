@@ -100,7 +100,7 @@ public class RestaurantFragment extends Fragment {
             public void onTaskCompletion(Object o) {
                 JSONArray jsonArray = (JSONArray) o;
                 populateData(jsonArray);
-                Toast.makeText(getActivity(),"Testing",Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(),"Testing",Toast.LENGTH_LONG).show();
                 // prepare list data
                 constructData();
 

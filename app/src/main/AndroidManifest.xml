@@ -56,7 +56,8 @@
 
         <activity
             android:name=".SelectionMenu"
-            android:theme="@style/MyMaterialTheme">
+            android:theme="@style/MyMaterialTheme"
+            android:screenOrientation="portrait">
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN" />-->
 
@@ -78,7 +79,8 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainMenu" />
+        <activity android:name=".MainMenu"
+            android:screenOrientation="portrait"/>
         <!--<activity-->
             <!--android:name=".SplashActivity"-->
             <!--android:label="@string/app_name"-->
@@ -96,6 +98,7 @@
             android:name=".DealActivity"
             android:label="@string/app_name"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <receiver android:name=".GeofenceReceiver">

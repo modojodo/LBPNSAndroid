@@ -1,16 +1,21 @@
 package com.lbpns.android.lbpnsandroid;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -19,7 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class MapActivity extends FragmentActivity {
 
-GoogleMap googleMap;
+    GoogleMap googleMap;
 
     LatLng latLng = new LatLng(24.955635,67.154491);
 
@@ -31,7 +36,7 @@ GoogleMap googleMap;
 
         googleMap = mapFragment.getMap();
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {

@@ -50,7 +50,7 @@ public class ServerRequestTask extends AsyncTask<String, Void, Object> {
     protected void onPreExecute() {
         super.onPreExecute();
         progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Loading Wait kero!");
+        progressDialog.setMessage("Loading...");
         progressDialog.show();
 
     }

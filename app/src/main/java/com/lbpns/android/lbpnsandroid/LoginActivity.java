@@ -54,17 +54,13 @@ public class LoginActivity extends Activity {
                     } else {
 
 
-                        loginTask = new ServerRequestTask(LoginActivity.this,new ServerRequestTask.TaskHandler() {
+                        loginTask = new ServerRequestTask(LoginActivity.this, new ServerRequestTask.TaskHandler() {
                             @Override
-                            public boolean taskWithBoolean() {
+                            public Object task() {
                                 ServerCommunication server = new ServerCommunication(_this);
                                 return server.login(email, password);
                             }
 
-                            @Override
-                            public JSONArray taskWithJSONArray() {
-                                return null;
-                            }
 
                             @Override
                             public void onTaskCompletion(Object o) {
@@ -82,16 +78,7 @@ public class LoginActivity extends Activity {
 
                         });
 
-                        loginTask.execute("boolean");
-
-//                            boolean loggedIn = (boolean) loginTask.execute("boolean").get();
-//                              boolean loggedIn = bool;
-//                            if (loggedIn) {
-//                                Intent homeActivity = new Intent(v.getContext(), MainMenu.class);
-//                                startActivity(homeActivity);
-//                            } else {
-//                                Toast.makeText(_this, "Invalid Login!", Toast.LENGTH_SHORT).show();
-//                            }
+                        loginTask.execute();
 
                     }
 

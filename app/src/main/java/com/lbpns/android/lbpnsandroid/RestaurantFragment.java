@@ -66,7 +66,7 @@ public class RestaurantFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_explistview, container, false);
 
         getData();
-        fetchTask.execute("jsonarray");
+        fetchTask.execute();
 
 //        getData();
         expListView = (ExpandableListView) rootView.findViewById(R.id.lvExpanded);
@@ -85,7 +85,7 @@ public class RestaurantFragment extends Fragment {
     void getData() {
         fetchTask = new ServerRequestTask(getActivity(), new ServerRequestTask.TaskHandler() {
             @Override
-            public JSONArray taskWithJSONArray() {
+            public Object task() {
                 try {
                     URL url = new URL(ServerCommunication.GET_PREFERENCES_BY_RESTAURANT);
                     ServerCommunication server = new ServerCommunication(getActivity());
@@ -100,7 +100,7 @@ public class RestaurantFragment extends Fragment {
             public void onTaskCompletion(Object o) {
                 JSONArray jsonArray = (JSONArray) o;
                 populateData(jsonArray);
-//                Toast.makeText(getActivity(),"Testing",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Testing", Toast.LENGTH_LONG).show();
                 // prepare list data
                 constructData();
 
@@ -108,13 +108,7 @@ public class RestaurantFragment extends Fragment {
                 listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
 
                 expListView.setAdapter(listAdapter);
-                Log.d("T","After Task");
-            }
-
-
-            @Override
-            public boolean taskWithBoolean() {
-                return false;
+                Log.d("T", "After Task");
             }
         });
 
@@ -163,8 +157,8 @@ public class RestaurantFragment extends Fragment {
         listTitleS = new String[listTitle.size()];
         listTitleS = listTitle.toArray(listTitleS);
 
-            listContentS = new String[individualRestaurantCuisines.size()];
-            listContentS = individualRestaurantCuisines.toArray(listContentS);
+        listContentS = new String[individualRestaurantCuisines.size()];
+        listContentS = individualRestaurantCuisines.toArray(listContentS);
 
 
     }

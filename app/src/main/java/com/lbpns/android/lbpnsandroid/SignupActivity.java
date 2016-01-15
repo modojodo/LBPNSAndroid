@@ -64,15 +64,11 @@ public class SignupActivity extends Activity {
 
                         loginTask = new ServerRequestTask(SignupActivity.this,new ServerRequestTask.TaskHandler() {
                             @Override
-                            public boolean taskWithBoolean() {
+                            public Object task() {
                                 ServerCommunication server = new ServerCommunication(_this);
                                 return server.signup(email, password);
                             }
 
-                            @Override
-                            public JSONArray taskWithJSONArray() {
-                                return null;
-                            }
 
                             @Override
                             public void onTaskCompletion(Object o) {
@@ -92,7 +88,7 @@ public class SignupActivity extends Activity {
 
                         });
 
-                        loginTask.execute("boolean");
+                        loginTask.execute();
 
 
 //                            boolean signedUp = (boolean) loginTask.execute("boolean").get();

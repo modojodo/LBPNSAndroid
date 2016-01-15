@@ -13,10 +13,10 @@ import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 
-public class ServerRequestTask extends AsyncTask<String, Void, Object> {
+public class ServerRequestTask extends AsyncTask<Void, Void, Object> {
     private final static String TAG = "ServerRequestTask";
     private ProgressBar progressBar;
-//    private ProgressDialog progressDialog;
+    //    private ProgressDialog progressDialog;
     private Activity context;
     private ProgressDialog progressDialog;
 
@@ -26,24 +26,23 @@ public class ServerRequestTask extends AsyncTask<String, Void, Object> {
 // when we have to execute our task.
 
     public interface TaskHandler {
-        public abstract boolean taskWithBoolean();
+        public abstract Object task();
 
-        public abstract JSONArray taskWithJSONArray();
+//        public abstract JSONArray taskWithJSONArray();
 
-        public abstract void  onTaskCompletion(Object o);
+        public abstract void onTaskCompletion(Object o);
 
     }
 
     private final TaskHandler taskHandler;
 
-    public ServerRequestTask(Activity activity,TaskHandler handler) {
+    public ServerRequestTask(Activity activity, TaskHandler handler) {
         this.taskHandler = handler;
         this.context = activity;
 //        this.taskCompletion =
 
         progressDialog = new ProgressDialog(context);
     }
-
 
 
     @Override
@@ -56,22 +55,10 @@ public class ServerRequestTask extends AsyncTask<String, Void, Object> {
     }
 
     @Override
-    protected Object doInBackground(String... params) {
+    protected Object doInBackground(Void... params) {
         Object result = null;
         if (this.taskHandler != null) {
-            switch (params[0]) {
-                case "boolean":
-                    boolean a = this.taskHandler.taskWithBoolean();
-                    result = a;
-                    break;
-                case "jsonarray":
-                    JSONArray b = this.taskHandler.taskWithJSONArray();
-                    result = b;
-                    break;
-                default:
-                    break;
-            }
-
+            result = this.taskHandler.task();
         }
         return result;
     }

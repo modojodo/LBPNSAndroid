@@ -35,6 +35,9 @@ public class ServerCommunication {
     static final String AUTH_LINK = ROOT_URL + "/authenticate";
     static final String GET_PREFERENCES_BY_RESTAURANT = ROOT_URL + "/getPreferencesByRestaurant";
     static final String GET_PREFERENCES_BY_CUISINE = ROOT_URL + "/getPreferencesByCuisine";
+    static final String GET_USER_PREFERENCE_DEALS_BY_CUISINE = ROOT_URL + "/getUserPreferenceDealsByCuisine";
+    static final String GET_USER_PREFERENCE_DEALS_BY_RESTAURANT = ROOT_URL + "/getUserPreferenceDealsByRestaurant";
+
     private static final String TAG = "ServerCommunication";
     private static Context _this = null;
 
@@ -212,13 +215,6 @@ public class ServerCommunication {
     }
 
     public static JSONArray getRequest(URL url) {
-
-//        URL url = null;
-//        try {
-//            url = new URL(link);
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
         HttpURLConnection conn = null;
         try {
 //            CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));

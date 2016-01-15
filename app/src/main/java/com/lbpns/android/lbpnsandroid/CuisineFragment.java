@@ -57,7 +57,7 @@ public class CuisineFragment extends Fragment {
 
 //        getData();
         getData();
-        fetchTask.execute("jsonarray");
+        fetchTask.execute();
 
         expListView = (ExpandableListView) rootView.findViewById(R.id.lvExpanded);
 
@@ -91,7 +91,7 @@ public class CuisineFragment extends Fragment {
 
         fetchTask = new ServerRequestTask(getActivity(), new ServerRequestTask.TaskHandler() {
             @Override
-            public JSONArray taskWithJSONArray() {
+            public Object task() {
                 try {
                     URL url = new URL(ServerCommunication.GET_PREFERENCES_BY_CUISINE);
                     ServerCommunication server = new ServerCommunication(getActivity());
@@ -111,18 +111,8 @@ public class CuisineFragment extends Fragment {
                 listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
 
                 expListView.setAdapter(listAdapter);
-
-
-
-
             }
 
-
-
-            @Override
-            public boolean taskWithBoolean() {
-                return false;
-            }
         });
     }
 

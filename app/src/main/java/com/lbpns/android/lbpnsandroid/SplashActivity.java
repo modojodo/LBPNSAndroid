@@ -35,15 +35,11 @@ public class SplashActivity extends AppCompatActivity {
         if (connectecd) {
             ServerRequestTask authenticateTask = new ServerRequestTask(SplashActivity.this,new ServerRequestTask.TaskHandler() {
                 @Override
-                public boolean taskWithBoolean() {
+                public Object task() {
                     ServerCommunication server = new ServerCommunication(_this);
                     return server.authenticate();
                 }
 
-                @Override
-                public JSONArray taskWithJSONArray() {
-                    return null;
-                }
 
                 @Override
                 public void onTaskCompletion(Object o) {
@@ -61,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
 
             });
 
-            authenticateTask.execute("boolean");
+            authenticateTask.execute();
 
 //            try {
 //                boolean authenticated = (boolean) authenticateTask.execute("boolean").get();

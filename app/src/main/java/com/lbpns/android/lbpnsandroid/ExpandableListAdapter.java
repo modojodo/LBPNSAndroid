@@ -53,7 +53,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     JSONArray jsonArrayCuisine = new JSONArray();
     JSONObject jsonObjectCuisine = new JSONObject();
 
-    JSONArray userPref = new JSONArray();
+    static JSONArray userPref = new JSONArray();
 
     SharedPreferences sharedPreferences;
     static String headerC;
@@ -75,6 +75,19 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private String titleSelected[];
     private String contentSelected[];
+
+    public static JSONArray removeJSONArray(JSONArray jarray, int pos) {
+        JSONArray Njarray = new JSONArray();
+        try {
+            for (int i = 0; i < jarray.length(); i++) {
+                if (i != pos)
+                    Njarray.put(jarray.get(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Njarray;
+    }
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
@@ -108,18 +121,20 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         txtListChild.setText(childText);
 
 
-        loadSavedPreferences(headerTitle + childText);
-        loadSavedPreferences(childText + headerTitle);
+//        loadSavedPreferences(headerTitle + childText);
+//        loadSavedPreferences(childText + headerTitle);
 
-
-        if (checkBoxValue) {
-            txtListChild.setChecked(true);
-
-
-        } else {
-            txtListChild.setChecked(false);
-
-        }
+//
+//        if (checkBoxValue) {
+//            txtListChild.setChecked(true);
+//            Log.d(TAG, headerTitle);
+//            Log.d(TAG, childText);
+//            Log.d(TAG, "----------------------");
+//
+//        } else {
+//            txtListChild.setChecked(false);
+//
+//        }
 
 
         txtListChild.setOnClickListener(new View.OnClickListener() {
@@ -127,13 +142,58 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 if (txtListChild.isChecked()) {
                     txtListChild.setChecked(false);
-                    savePreferences(headerTitle + childText, false);
+
+
+                    try {
+                        JSONObject itrObj;
+                        for (int i = 0; i < userPref.length(); i++) {
+                            itrObj = userPref.getJSONObject(i);
+                            if (itrObj.has(headerTitle)) {
+                                JSONArray item = itrObj.getJSONArray(headerTitle);
+                                JSONArray newArr = new JSONArray();
+                                for (int j = 0; j < item.length(); j++) {
+                                    if (item.getString(j).equals(childText)) {
+                                        newArr = removeJSONArray(item, j);
+                                        JSONObject obj = new JSONObject();
+                                        obj.put(headerTitle, newArr);
+                                        userPref = removeJSONArray(userPref,i);
+                                        userPref.put(obj);
+                                        if (newArr.length() <= 0) {
+                                            userPref = removeJSONArray(userPref, i);
+                                        }
+                                    }
+//                                    Object check = item.get(j);
+//                                    if (check != null) {
+//                                        if (item.getString(j).equals(childText)) {
+//                                            item.put(j, null);
+//                                        }
+//                                    }
+                                }
+//                                JSONArray array = new JSONArray();
+//                                for (int k = 0; k < item.length(); k++) {
+////                                    Object check = item.(k);
+//                                    if (check != null) {
+//                                        array.put(item.get(k));
+//                                    }
+//                                }
+
+                            }
+                        }
+                        Log.d(TAG, userPref.toString());
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+//                    savePreferences(headerTitle + childText, false);
 
 //                    savePreferences(childText + headerTitle, false);
-                    Map<String,?> allEntries = sharedPreferences.getAll();
-                    for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-                        Log.d("map values", entry.getKey() + "Haziq");
-                    }
+//                    Map<String, ?> allEntries = sharedPreferences.getAll();
+//                    for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+//                        Log.d("map values", entry.getKey() + "Haziq");
+//                    }
 
                     // Toast.makeText(context,childText + " unselected!",Toast.LENGTH_SHORT).show();
                     removeProximityAlert(childPosition + request);
@@ -213,13 +273,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 //                        }
 //                    }
                     System.out.println("Inside not checked");
-
                     txtListChild.setChecked(true);
-
-                    savePreferences(headerTitle + childText, true);
-
-                    savePreferences(childText + headerTitle, true);
-
+//                    savePreferences(headerTitle + childText, true);
+//                    savePreferences(childText + headerTitle, true);
 //                    JSONArray jsonArrayRestaurant = new JSONArray();
 //                    JSONObject jsonObjectRestaurant = new JSONObject();
 //                    for (int i = 0; i < RestaurantFragment.listTitleS.length; i++) {
@@ -453,24 +509,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     private void savePreferences(String key, boolean value) {
-
-         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
         editor.putBoolean(key, value);
-
         editor.commit();
-
     }
 
     private void loadSavedPreferences(String key) {
-
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-
         checkBoxValue = sharedPreferences.getBoolean(key, false);
-
-
     }
 
 

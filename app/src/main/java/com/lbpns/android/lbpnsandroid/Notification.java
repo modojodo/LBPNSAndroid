@@ -28,12 +28,12 @@ public class Notification {
         this.contentText = contentText;
         this.subText = subText;
 
-        Uri mapIntent = Uri.parse("google.navigation:q=" +LATITUDE + "," +LONGITUDE );
-        Intent mIntent = new Intent(Intent.ACTION_VIEW,mapIntent);
-        intent.setPackage("com.google.android.apps.maps");
+//        Uri mapIntent = Uri.parse("google.navigation:q=" +LATITUDE + "," +LONGITUDE );
+//        Intent mIntent = new Intent(Intent.ACTION_VIEW,mapIntent);
+//        intent.setPackage("com.google.android.apps.maps");
 
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context,1,mIntent,0);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(context,1,mIntent,0);
 
         builder = new NotificationCompat.Builder(context);
         Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
@@ -45,7 +45,7 @@ public class Notification {
         builder.setContentTitle("Mighty Zinger Combo");
         builder.setContentText("Mighty zinger, regular fries &");
         builder.setSubText("300 ml drink at Rs.580");
-        builder.setContentIntent(pendingIntent);
+//        builder.setContentIntent(pendingIntent);
         builder.setWhen(System.currentTimeMillis());
         builder.setAutoCancel(true);
         //builder.build();

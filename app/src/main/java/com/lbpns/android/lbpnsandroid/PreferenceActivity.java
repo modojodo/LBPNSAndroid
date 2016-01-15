@@ -32,6 +32,8 @@ public class PreferenceActivity extends Activity {
     RestaurantFragment restaurantFragment;
     CuisineFragment cuisineFragment;
     Button btnUpdate;
+    static String keyD,valueDeals;
+    JSONArray responseArr;
     String choice = null;
     URL url;
 
@@ -94,14 +96,24 @@ public class PreferenceActivity extends Activity {
                     @Override
                     public void onTaskCompletion(Object o) {
                         JSONObject response = (JSONObject) o;
-                        JSONArray responseArr;
 //                        Log.d(TAG, response.toString());
                         try {
                             responseArr = response.getJSONArray("deals");
-                            JSONObject obj =responseArr.getJSONObject(0);
-                            String str =obj.getString("dealTitle");
-                            Log.d(TAG,obj.toString());
-                            Log.d(TAG,str);
+
+//                            JSONObject obj =responseArr.getJSONObject(0);
+//                            String str =obj.getString("dealTitle");
+//                            Log.d(TAG,obj.toString());
+//                            Log.d(TAG,str);
+
+                            if(responseArr != null) {
+                                getData();
+
+                                UserPref userPref = new UserPref();
+                                userPref.setUserNotificationPref(keyD, valueDeals);
+
+                                Notification notification = new Notification();
+//                                notification.setNotification();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -148,6 +160,25 @@ public class PreferenceActivity extends Activity {
 
             }
         });
+
+    }
+
+
+    void getData(){
+
+       JSONArray jSONArray = responseArr;
+
+        try {
+            keyD = jSONArray.getJSONObject(0).getString("location");
+            valueDeals = jSONArray.getJSONObject(0).getJSONArray("location").toString();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    void getDealsData(){
 
     }
 

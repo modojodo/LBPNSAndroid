@@ -48,6 +48,7 @@ public class PreferenceActivity extends Activity {
     JSONArray responseArr;
     String choice = null;
     URL url;
+    static String checkKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,6 +240,7 @@ public class PreferenceActivity extends Activity {
         SharedPreferences userNotify = getSharedPreferences("Notify", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userNotify.edit();
 
+        checkKey = key;
         editor.putString(key, value);
         editor.commit();
     }

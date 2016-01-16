@@ -121,19 +121,10 @@
         <!--</activity>-->
 
         <!--<activity android:name=".MainMenu" />-->
-        <activity android:name=".MapActivity">
-            <intent-filter>
-                <action android:name="com.lbpns.android.lbpnsandroid.MapActivity" />
-                <category android:name="android.intent.category.APP_MAPS" />
+        <activity android:name=".MapActivity" />
 
-            </intent-filter>
 
-        </activity>
         <activity android:name=".TestActivity"></activity>
-
-        <activity
-            android:name=".SettingsActivity"
-            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

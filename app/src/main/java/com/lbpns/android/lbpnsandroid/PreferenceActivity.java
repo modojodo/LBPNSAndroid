@@ -1,9 +1,17 @@
 package com.lbpns.android.lbpnsandroid;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,8 +40,11 @@ public class PreferenceActivity extends Activity {
     private final String TAG = "PreferenceActivity";
     RestaurantFragment restaurantFragment;
     CuisineFragment cuisineFragment;
+    final float RADIUS = 1000;
+    private static final long EXPIRATION_TIME = -1;
     Button btnUpdate;
-    static String keyD,valueDeals;
+    Context context;
+    static String keyD, valueDeals;
     JSONArray responseArr;
     String choice = null;
     URL url;
@@ -95,26 +107,64 @@ public class PreferenceActivity extends Activity {
 
                     @Override
                     public void onTaskCompletion(Object o) {
-                        JSONObject response = (JSONObject) o;
-//                        Log.d(TAG, response.toString());
+                        JSONObject jsonObject = (JSONObject) o;
+                        JSONArray response = null;
                         try {
-                            responseArr = response.getJSONArray("deals");
+                            response = jsonObject.getJSONArray("deals");
 
-//                            JSONObject obj =responseArr.getJSONObject(0);
-//                            String str =obj.getString("dealTitle");
-//                            Log.d(TAG,obj.toString());
-//                            Log.d(TAG,str);
+//                        Log.d(TAG, response.toString());
+                            if (response != null) {
+                                Log.d(TAG, "inside null if");
 
-                            if(responseArr != null) {
-                                getData();
+//                            responseArr = response.getJSONArray("deals");
+                                String key = null, value = null;
+                                for (int i = 0; i < response.length(); i++) {
+                                    JSONObject obj = response.getJSONObject(i);
+                                    Iterator<String> keys = obj.keys();
 
-                                UserPref userPref = new UserPref();
-                                userPref.setUserNotificationPref(keyD, valueDeals);
+                                    if (keys.hasNext()) {
+                                        key = (String) keys.next(); // First key in our json object
+                                        value = obj.getJSONArray(key).toString();
+                                    }
+                                    if (key != null && value != null) {
+                                        Log.d(TAG, "inside null if key , value");
+                                        Log.d(TAG, key);
+                                        Log.d(TAG, value);
+//                                    UserPref userPref = new UserPref();
+                                        setUserNotificationPref(key, value);
+                                        String location[] = key.split(",");
+                                        double lat = Double.parseDouble(location[0]);
+                                        double lng = Double.parseDouble(location[1]);
+                                        System.out.println("Umer: " + lat);
+                                        System.out.println("Umer: " + lng);
+                                        JSONArray dealsArr = new JSONArray(value);
+                                        int rand = (int) (Math.random() * (dealsArr.length()));
+                                        JSONObject firstDeal = dealsArr.getJSONObject(rand);
+                                        boolean maxDeals;
+                                        if (value.length() >= 1) {
+                                            maxDeals = true;
+                                        } else {
+                                            maxDeals = false;
+                                        }
+                                        String dealTitle = firstDeal.getString("dealTitle");
+                                        String dealContent;
+                                        if (firstDeal.has("dealContent")) {
+                                            dealContent = firstDeal.getString("dealContent");
+                                        } else {
+                                            dealContent = null;
+                                        }
+                                        String price = firstDeal.getString("price");
+                                        addProximityAlert((int) System.currentTimeMillis(), lat, lng, maxDeals, dealTitle, dealContent, price, dealsArr.length());
+
+                                    }
+
+                                }
 
                                 Notification notification = new Notification();
 //                                notification.setNotification();
-                            }
 
+
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -163,23 +213,34 @@ public class PreferenceActivity extends Activity {
 
     }
 
+    private void addProximityAlert(int requestCode, double lat, double lon, boolean max, String title, String content, String price, int moreDealsLength) {
+        Log.d(TAG, "addProximityAlert called!");
+        LocationManager lManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Intent intent = new Intent("com.lbpns.android.lbpnsandroid");
+        intent.putExtra("dealTitle", title);
 
-    void getData(){
+        intent.putExtra("dealContent", content);
+        intent.putExtra("moreDealsLength", moreDealsLength);
+        intent.putExtra("price", price);
+        intent.putExtra("max", max);
 
-       JSONArray jSONArray = responseArr;
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), requestCode, intent, 0);
 
-        try {
-            keyD = jSONArray.getJSONObject(0).getString("location");
-            valueDeals = jSONArray.getJSONObject(0).getJSONArray("location").toString();
+        if (lManager != null) {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                lManager.addProximityAlert(lat, lon, RADIUS, EXPIRATION_TIME, pendingIntent);
+                Toast.makeText(getApplicationContext(), "Proximity Alert Added!", Toast.LENGTH_LONG).show();
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+            }
         }
-
     }
 
-    void getDealsData(){
+    void setUserNotificationPref(String key, String value) {
+        SharedPreferences userNotify = getSharedPreferences("Notify", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userNotify.edit();
 
+        editor.putString(key, value);
+        editor.commit();
     }
 
 

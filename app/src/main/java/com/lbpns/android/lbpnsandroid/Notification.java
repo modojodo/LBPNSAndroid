@@ -21,7 +21,7 @@ public class Notification {
     private String contentText;
     private String subText;
 
-    void setNotification(String ticker,String contentTitle,String contentText,String subText,double LATITUDE,double LONGITUDE,Intent intent,NotificationCompat.Builder builder,Context context){
+    void setNotification(String ticker, String contentTitle, String contentText, String subText, Intent intent, NotificationCompat.Builder builder, Context context) {
 
         this.ticker = ticker;
         this.contentTitle = contentTitle;
@@ -32,26 +32,26 @@ public class Notification {
 //        Intent mIntent = new Intent(Intent.ACTION_VIEW,mapIntent);
 //        intent.setPackage("com.google.android.apps.maps");
 
-
-//        PendingIntent pendingIntent = PendingIntent.getActivity(context,1,mIntent,0);
+        Intent mIntent = new Intent(context, TestActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, mIntent, 0);
 
         builder = new NotificationCompat.Builder(context);
         Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.burger);
-        builder.setTicker("Mighty Zinger Combo!");
+                R.drawable.dealertsmall);
+        builder.setTicker(ticker);
         builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         builder.setLargeIcon(icon);
-        builder.setSmallIcon(R.drawable.burger);
-        builder.setContentTitle("Mighty Zinger Combo");
-        builder.setContentText("Mighty zinger, regular fries &");
-        builder.setSubText("300 ml drink at Rs.580");
-//        builder.setContentIntent(pendingIntent);
+        builder.setSmallIcon(R.drawable.dealertsmall);
+        builder.setContentTitle(contentTitle);
+        builder.setContentText(contentText);
+        builder.setSubText(subText);
+        builder.setContentIntent(pendingIntent);
         builder.setWhen(System.currentTimeMillis());
         builder.setAutoCancel(true);
         //builder.build();
 
         NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nManager.notify((int)System.currentTimeMillis(), builder.build());
+        nManager.notify((int) System.currentTimeMillis(), builder.build());
     }
 
 

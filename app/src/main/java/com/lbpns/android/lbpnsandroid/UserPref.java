@@ -43,8 +43,7 @@ public class UserPref{
     void getUserNotificationPref(String key)
     {
         SharedPreferences userNotify = context.getSharedPreferences("Notify", Context.MODE_PRIVATE);
-        String latlng = userNotify.getString(key,null);
-
+        String location = userNotify.getString(key,null);
     }
 
 

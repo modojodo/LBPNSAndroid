@@ -13,17 +13,13 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
 /**
-
-  Created by Asad 15R on 12/31/2015.
+ * Created by Asad 15R on 12/31/2015.
  */
 public class GeofenceReceiver extends BroadcastReceiver {
 
-//    private static final double LATITUDEs = 25.020588;
+    //    private static final double LATITUDEs = 25.020588;
 //    private static final double LONGITUDEs = 67.132638;
-    private String ticker="Mighty Zinger Combo!";
-    private String contentTitle="Mighty Zinger Combo";
-    private String contentText = "Mighty zinger, regular fries &";
-    private String subText = "300 ml drink at Rs.580";
+    private String ticker = "Mighty Zinger Combo!";
     double LATITUDE = 25.020588;
     double LONGITUDE = 67.132638;
     NotificationCompat.Builder builder;
@@ -32,9 +28,15 @@ public class GeofenceReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         String key = LocationManager.KEY_PROXIMITY_ENTERING;
-        boolean state = intent.getBooleanExtra(key,false);
-
-        if(state){
+        boolean state = intent.getBooleanExtra(key, false);
+        boolean max = intent.getBooleanExtra("max", false);
+        String title = intent.getStringExtra("dealTitle");
+        String content = intent.getStringExtra("dealContent");
+        String price = intent.getStringExtra("price");
+        price = "RS. " + price;
+        String ticker = title;
+        int moreDealsLength = intent.getIntExtra("moreDealsLength", 0);
+        if (state) {
 
 //            // Uri mapIntent  = Uri.parse("geo:"+LATITUDE+","+LONGITUDE);
 //            Uri mapIntent = Uri.parse("google.navigation:q=" +LATITUDE + "," +LONGITUDE );
@@ -64,7 +66,12 @@ public class GeofenceReceiver extends BroadcastReceiver {
 //            nManager.notify((int)System.currentTimeMillis(), builder.build());
 
             Notification notification = new Notification();
-            notification.setNotification(ticker,contentTitle,contentText,subText,LATITUDE,LONGITUDE,intent,builder,context);
+            notification.setNotification(ticker, title, content, price, intent, builder, context);
+
+            if (max) {
+                notification.setNotification(ticker, "Hey!! More deals from same restaurant", "There are " + moreDealsLength + " more deals ;)", "Click here to see more!", intent, builder, context);
+            }
+
 
         }
 

@@ -29,7 +29,8 @@ import java.util.List;
 public class ServerCommunication {
     //    Genymotion/virtualbox ip address for localhost: 192.168.56.1:3000
     static final String CHARSET = "UTF-8";
-    static final String ROOT_URL = "http://192.168.0.104:3000";
+    //    static final String ROOT_URL = "http://192.168.56.1:3000";
+    static final String ROOT_URL = "http://192.168.0.101:3000";
     static final String SIGNUP_LINK = ROOT_URL + "/signup";
     static final String LOGIN_LINK = ROOT_URL + "/login";
     static final String AUTH_LINK = ROOT_URL + "/authenticate";

@@ -135,8 +135,8 @@ public class PreferenceActivity extends Activity {
                                         String location[] = key.split(",");
                                         double lat = Double.parseDouble(location[0]);
                                         double lng = Double.parseDouble(location[1]);
-                                        System.out.println("Umer: " + lat);
-                                        System.out.println("Umer: " + lng);
+//                                        System.out.println(" " + lat);
+//                                        System.out.println(" " + lng);
                                         JSONArray dealsArr = new JSONArray(value);
                                         int rand = (int) (Math.random() * (dealsArr.length()));
                                         JSONObject firstDeal = dealsArr.getJSONObject(rand);
@@ -154,14 +154,12 @@ public class PreferenceActivity extends Activity {
                                             dealContent = null;
                                         }
                                         String price = firstDeal.getString("price");
-                                        addProximityAlert((int) System.currentTimeMillis(), lat, lng, maxDeals, dealTitle, dealContent, price, dealsArr.length());
+                                        addProximityAlert((int) System.currentTimeMillis(), lat, lng, maxDeals, dealTitle, dealContent, price, dealsArr.length(),value);
 
                                     }
 
                                 }
 
-                                Notification notification = new Notification();
-//                                notification.setNotification();
 
 
                             }
@@ -213,16 +211,18 @@ public class PreferenceActivity extends Activity {
 
     }
 
-    private void addProximityAlert(int requestCode, double lat, double lon, boolean max, String title, String content, String price, int moreDealsLength) {
+    private void addProximityAlert(int requestCode, double lat, double lon, boolean max, String title, String content, String price, int moreDealsLength,String value) {
         Log.d(TAG, "addProximityAlert called!");
         LocationManager lManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Intent intent = new Intent("com.lbpns.android.lbpnsandroid");
         intent.putExtra("dealTitle", title);
-
+        intent.putExtra("value",value);
         intent.putExtra("dealContent", content);
         intent.putExtra("moreDealsLength", moreDealsLength);
         intent.putExtra("price", price);
         intent.putExtra("max", max);
+        intent.putExtra("lat",lat);
+        intent.putExtra("lon",lon);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), requestCode, intent, 0);
 

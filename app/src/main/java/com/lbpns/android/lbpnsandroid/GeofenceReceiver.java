@@ -31,45 +31,23 @@ public class GeofenceReceiver extends BroadcastReceiver {
         boolean state = intent.getBooleanExtra(key, false);
         boolean max = intent.getBooleanExtra("max", false);
         String title = intent.getStringExtra("dealTitle");
+        String[] value = intent.getStringArrayExtra("values");
         String content = intent.getStringExtra("dealContent");
         String price = intent.getStringExtra("price");
+        double lat = intent.getDoubleExtra("lat",0);
+        double lon = intent.getDoubleExtra("lon",0);
+
         price = "RS. " + price;
         String ticker = title;
         int moreDealsLength = intent.getIntExtra("moreDealsLength", 0);
         if (state) {
 
-//            // Uri mapIntent  = Uri.parse("geo:"+LATITUDE+","+LONGITUDE);
-//            Uri mapIntent = Uri.parse("google.navigation:q=" +LATITUDE + "," +LONGITUDE );
-//            Intent mIntent = new Intent(Intent.ACTION_VIEW,mapIntent);
-//            intent.setPackage("com.google.android.apps.maps");
-//
-//
-//            PendingIntent pendingIntent = PendingIntent.getActivity(context,1,mIntent,0);
-//
-//            //    Toast.makeText(context, "You have Entered Geofence", Toast.LENGTH_LONG).show();
-//            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-//            Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
-//                    R.drawable.burger);
-//            builder.setTicker("Mighty Zinger Combo!");
-//            builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-//            builder.setLargeIcon(icon);
-//            builder.setSmallIcon(R.drawable.burger);
-//            builder.setContentTitle("Mighty Zinger Combo");
-//            builder.setContentText("Mighty zinger, regular fries &");
-//            builder.setSubText("300 ml drink at Rs.580");
-//            builder.setContentIntent(pendingIntent);
-//            builder.setWhen(System.currentTimeMillis());
-//            builder.setAutoCancel(true);
-//            //builder.build();
-//
-//            NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//            nManager.notify((int)System.currentTimeMillis(), builder.build());
 
             Notification notification = new Notification();
-            notification.setNotification(ticker, title, content, price, intent, builder, context);
+            notification.setNotificationMap(ticker, title, content, price, intent, builder, context,lat,lon);
 
             if (max) {
-                notification.setNotification(ticker, "Hey!! More deals from same restaurant", "There are " + moreDealsLength + " more deals ;)", "Click here to see more!", intent, builder, context);
+                notification.setNotification(ticker, "Hey!! More deals from same restaurant", "There are " + moreDealsLength + " more deals ;)", "Click here to see more!", intent, builder, context,value);
             }
 
 
